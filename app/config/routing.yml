@@ -1,0 +1,7 @@
+m1_mag_app:
+    resource: "@M1MagAppBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

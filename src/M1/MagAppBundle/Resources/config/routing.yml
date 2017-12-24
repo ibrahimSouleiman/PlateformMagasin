@@ -1,0 +1,3 @@
+m1_mag_app_homepage:
+    path:     /
+    defaults: { _controller: M1MagAppBundle:Default:index }
