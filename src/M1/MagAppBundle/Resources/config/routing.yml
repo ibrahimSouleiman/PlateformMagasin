@@ -1,3 +1,17 @@
 m1_mag_app_homepage:
     path:     /
     defaults: { _controller: M1MagAppBundle:Default:index }
+
+
+add_prod:
+    path: /Ajout_Produit
+    defaults: {_controller: M1MagAppBundle:Produit:add}  
+
+
+add_categorie:
+    path: /ajout_Categorie
+    defaults: {_controller: M1MagAppBundle:Categorie:add}  
+
+saved_categorie:
+    path: /Save_Cat
+    defaults: {_controller: M1MagAppBundle:Categorie:add}  

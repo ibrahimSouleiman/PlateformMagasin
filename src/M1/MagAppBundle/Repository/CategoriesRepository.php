@@ -10,4 +10,9 @@ namespace M1\MagAppBundle\Repository;
  */
 class CategoriesRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getAllCategories()
+  {
+    return $this->createQueryBuilder('p');
+  }
+
 }
