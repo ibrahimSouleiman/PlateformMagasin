@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="125b73fe-9a01-4d4a-bb7b-1c3a2f5c92a8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/M1/MagAppBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/M1/MagAppBundle/Resources/config/routing.yml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -304,12 +303,12 @@
       <workItem from="1514153927555" duration="4329000" />
       <workItem from="1514198106310" duration="30179000" />
       <workItem from="1514288174834" duration="13447000" />
-      <workItem from="1514316273183" duration="496000" />
+      <workItem from="1514316273183" duration="1094000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48451000" />
+    <option name="totallyTimeSpent" value="49049000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
