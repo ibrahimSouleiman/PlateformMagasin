@@ -24,6 +24,28 @@ class Utilisateurs implements  UserInterface
      */
     private $id;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     */
+      private $nom;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=255, unique=true)
+     */
+    private $prenom;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=255, unique=true)
+     */
+    private $adresse;
+
     /**
      * @var string
      * @Assert\Email()
@@ -54,12 +76,8 @@ class Utilisateurs implements  UserInterface
     {
     }
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
-     */
-    private $name;
+   
+
 
      /**
      * Get id
@@ -71,35 +89,73 @@ class Utilisateurs implements  UserInterface
         return $this->id;
     }
 
-  
 
-
-      /**
-     * Get Personne
+   
+     /**
+     * Get nom
      *
-     * @return Personne
+     * @return string
      */
-    public function getName()
+    public function getNom()
     {
-        return $this->name;
+        return $this->nom;
     }
-
-    /**
-     * Set idType
+  /**
+     * Set nom
      *
-     * @param string $idPersonne
+     * @param string $nom
      *
      * @return Utilisateurs
      */
-    public function setName($name)
+    public function setNom($nom)
     {
-        $this->name = $name;
-
+        $this->nom = $nom;
+        return $this;
+    }
+   /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+  /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return Utilisateurs
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+        return $this;
+    }
+   /**
+     * Get adresse
+     *
+     * @return string
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+  /**
+     * Set adresse
+     *
+     * @param string $adresse
+     *
+     * @return Utilisateurs
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
         return $this;
     }
 
-
-
+    
 
     /**
      * Get motdepasse
@@ -129,7 +185,6 @@ class Utilisateurs implements  UserInterface
 
     /**
      * Set Salt
-     *
      * @param $salt
      *
      * @return Utilisateurs
@@ -137,7 +192,6 @@ class Utilisateurs implements  UserInterface
     public function setSalt($salt)
     {
         $this->salt = $salt;
-
         return $this;
     }
 
@@ -174,18 +228,6 @@ class Utilisateurs implements  UserInterface
     {
         return $this->roles;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Set nomUtilisateur

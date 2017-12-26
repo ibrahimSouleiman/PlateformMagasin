@@ -1,0 +1,35 @@
+{% extends "M1MagAppBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+<table>
+    <tr>
+       <td>Nom:</td>
+       <td> {{ produit.nom }}</td> 
+   </tr>
+    <tr> 
+    	<td>Catégorie:</td>  
+    	<td>{{ produit.categorie.libelleCategorie }}</td>  
+    </tr>
+    <tr> 
+    	<td>Quantité:</td>
+        <td>{{ produit.quantite }}</td> 
+    </tr>
+    <tr> 
+    	<td>Prix:</td> 
+    	<td>{{ produit.prix }}</td> 
+    </tr>
+</table>
+{{ form_start(form) }}
+
+{{ form_errors(form) }}
+
+    {{ form_widget(form) }}
+
+ {{ form_widget(form.save) }}
+
+{{ form_end(form) }}
+ <a href="{{ path('list_stock')}}"> Revenir au stocks </a>
+
+{% endblock %}

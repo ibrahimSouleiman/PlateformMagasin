@@ -1,0 +1,38 @@
+<?php
+
+namespace M1\MagAppBundle\Controller;
+
+use M1\MagAppBundle\Entity\Categories;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use M1\MagAppBundle\Form\CategoriesType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
+class CategorieController extends Controller
+{
+    public function addAction(Request $request)
+    {
+    	$categorie = new Categories();
+    	
+        $form = $this->get('form.factory')->create(CategoriesType::class, $categorie)
+        ->add('save', SubmitType::class, array('label' => 'Enregistrer'));
+
+
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+             $em = $this->getDoctrine()->getManager();
+             $em->persist($categorie);
+             $em->flush();
+
+             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+
+             return $this->redirectToRoute('Save_Cat', array('id' => $categorie->getId()));
+    }
+
+    return $this->render('M1MagAppBundle:Magasinier:Form_Ajout_Categorie.html.twig', array(
+      'form' => $form->createView(),
+    ));
+    }
+
+}

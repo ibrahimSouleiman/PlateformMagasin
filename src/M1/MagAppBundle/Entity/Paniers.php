@@ -52,9 +52,9 @@ class Paniers
     }
 
  /**
-     * Set Personne
+     * Set Utilisateur
      *
-     * @param id $personne
+     * @param id $utilisateur
      *
      * @return Paniers
      */
@@ -66,9 +66,9 @@ class Paniers
     }
 
     /**
-     * Get Personne
+     * Get Utilisateur
      *
-     * @return Personne
+     * @return Utilisateur
      */
     public function getUtilisateur()
     {

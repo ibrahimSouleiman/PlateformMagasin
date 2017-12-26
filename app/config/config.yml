@@ -40,6 +40,11 @@ twig:
     form_themes:
         - 'bootstrap_3_layout.html.twig'
 
+twig:
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+
+
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -69,3 +74,4 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+

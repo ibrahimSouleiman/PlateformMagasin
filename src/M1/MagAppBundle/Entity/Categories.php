@@ -48,7 +48,8 @@ class Categories
      */
     public function setLibelleCategorie($libelleCategorie)
     {
-        $this->libelleCategoriele = $libelleCategoriele;
+
+        $this->libelleCategorie = $libelleCategorie;
 
         return $this;
     }
@@ -58,9 +59,13 @@ class Categories
      *
      * @return string
      */
-    public function getLibelleCategoriele()
+
+    public function getLibelleCategorie()
     {
-        return $this->libelleCategoriele;
+        return $this->libelleCategorie;
     }
+
+
+    
 }
 

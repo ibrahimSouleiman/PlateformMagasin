@@ -1,5 +1,6 @@
 m1_mag_app_homepage:
     path:     /
+<<<<<<< HEAD
     defaults: { _controller: M1MagAppBundle:Produit:index }
 m1_mag_app_detailpage:
     path:     /detail/{ref}
@@ -7,3 +8,28 @@ m1_mag_app_detailpage:
 
 
 
+=======
+    defaults: { _controller: M1MagAppBundle:Default:index }
+
+
+add_prod:
+    path: /Magasinier/Ajout_Produit
+    defaults: {_controller: M1MagAppBundle:Produit:add}  
+
+
+add_categorie:
+    path: /Magasinier/ajout_Categorie
+    defaults: {_controller: M1MagAppBundle:Categorie:add}  
+
+saved_categorie:
+    path: /Magasinier/Save_Cat
+    defaults: {_controller: M1MagAppBundle:Categorie:add}  
+
+list_stock:
+    path: /Magasinier/stock
+    defaults: {_controller: M1MagAppBundle:Produit:listStock}  
+
+update_stock:
+    path: /Magasinier/setStock/{id}
+    defaults: {_controller: M1MagAppBundle:Produit:updateStock}  
+>>>>>>> 3885a0b0754366113138f384a6da9b3192255bac
