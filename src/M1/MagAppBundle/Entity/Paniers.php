@@ -36,9 +36,9 @@ class Paniers
     private $description;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Personnes")
+    * @ORM\ManyToOne(targetEntity="Utilisateurs")
     */
-    private $personne;
+    private $utilisateur;
 
 
     /**
@@ -52,27 +52,27 @@ class Paniers
     }
 
  /**
-     * Set Personne
+     * Set Utilisateur
      *
-     * @param id $personne
+     * @param id $utilisateur
      *
      * @return Paniers
      */
-    public function setPersonne($personne)
+    public function setUtilisateur($utilisateur)
     {
-        $this->personne = $personne;
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
 
     /**
-     * Get Personne
+     * Get Utilisateur
      *
-     * @return Personne
+     * @return Utilisateur
      */
-    public function getPersonne()
+    public function getUtilisateur()
     {
-        return $this->personne;
+        return $this->utilisateur;
     }
 
     /**

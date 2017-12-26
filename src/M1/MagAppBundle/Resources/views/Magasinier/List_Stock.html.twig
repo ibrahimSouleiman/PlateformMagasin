@@ -6,11 +6,13 @@
 
 	<h3> Rechercher un produit </h3>
 
+      Nom:  <input type = "text" ng-model="pad">
 	<hr/>
 
+ <div ng-app = "mainApp" ng-controller = "produitController">
 	<h3> Produit du stock </h3>
 
-	<table border="2">
+	<table border="1">
 
 	{% for produit in produits %}
        <tr>
@@ -19,11 +21,36 @@
             <td> {{ produit.quantite }} </td>
             <td> {{ produit.categorie.libelleCategorie }} </td>
 
-            <td> <a href="{{ path('update_stock', {"id": produit.id}) }}">Alimenter le stock </a> </td>
+            <td> <a href="{{ path('update_stock', {'id': produit.id}) }}">Alimenter le stock </a> </td>
        </tr>
     {% endfor %}
 
     </table>
+ </div>
 
+  <script>
+         var mainApp = angular.module("mainApp", []);
+         var awesome = angular.module('awesome', []);
+
+awesome.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('||');
+    $interpolateProvider.endSymbol('||');
+});
+         mainApp.controller('produitController', function($scope) {
+            $scope.student = {
+               firstName: "Mahesh",
+               lastName: "Parashar",
+               fees:500,
+               
+               subjects:[
+                  {name:'Physics',marks:70},
+                  {name:'Chemistry',marks:80},
+                  {name:'Math',marks:65}
+               ],
+               
+     
+            };
+         });
+      </script>
 
 {% endblock %}

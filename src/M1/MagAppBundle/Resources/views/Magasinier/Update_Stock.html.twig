@@ -3,12 +3,24 @@
 {% block title %}{{ parent() }} - Index{% endblock %}
 
 {% block body %}
-
-Nom:  {{ produit.nom }} <br/>
-Catégorie: {{ produit.categorie.libelleCategorie }}  <br/>
-Quantité: {{ produit.quantite }} <br/>
-Prix: {{ produit.prix }} <br/>
-
+<table>
+    <tr>
+       <td>Nom:</td>
+       <td> {{ produit.nom }}</td> 
+   </tr>
+    <tr> 
+    	<td>Catégorie:</td>  
+    	<td>{{ produit.categorie.libelleCategorie }}</td>  
+    </tr>
+    <tr> 
+    	<td>Quantité:</td>
+        <td>{{ produit.quantite }}</td> 
+    </tr>
+    <tr> 
+    	<td>Prix:</td> 
+    	<td>{{ produit.prix }}</td> 
+    </tr>
+</table>
 {{ form_start(form) }}
 
 {{ form_errors(form) }}
@@ -18,6 +30,6 @@ Prix: {{ produit.prix }} <br/>
  {{ form_widget(form.save) }}
 
 {{ form_end(form) }}
-
+ <a href="{{ path('list_stock')}}"> Revenir au stocks </a>
 
 {% endblock %}
