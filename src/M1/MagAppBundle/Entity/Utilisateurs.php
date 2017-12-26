@@ -36,17 +36,35 @@ class Utilisateurs
     private $nomUtilisateur;
 
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=255)
+     */
+    private $prenom;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=255)
+     */
+    private $adresse;
+
    
     /**
     * @ORM\ManyToOne(targetEntity="Types")
     */
     
     private $type; 
-    
-    /**
-    * @ORM\ManyToOne(targetEntity="Personnes")
-    */
-    private $personne;
+   
 
      /**
      * Get id
@@ -58,7 +76,80 @@ class Utilisateurs
         return $this->id;
     }
 
-  
+
+     /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+  /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Utilisateurs
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+
+   /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+  /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return Utilisateurs
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+
+   /**
+     * Get adresse
+     *
+     * @return string
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+  /**
+     * Set adresse
+     *
+     * @param string $adresse
+     *
+     * @return Utilisateurs
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
 
   /**
      * Get idtype
@@ -84,29 +175,6 @@ class Utilisateurs
         return $this;
     }
 
-      /**
-     * Get idtype
-     *
-     * @return int
-     */
-    public function getPersonne()
-    {
-        return $this->personne;
-    }
-
-    /**
-     * Set idType
-     *
-     * @param string $idPersonne
-     *
-     * @return Utilisateurs
-     */
-    public function setPersonne($personne)
-    {
-        $this->personne = $personne;
-
-        return $this;
-    }
     /**
      * Get motdepasse
      *
