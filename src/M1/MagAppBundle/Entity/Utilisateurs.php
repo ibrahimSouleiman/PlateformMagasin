@@ -27,7 +27,7 @@ class Utilisateurs implements  UserInterface
      /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     * @ORM\Column(name="nom", type="string", length=255)
      */
       private $nom;
 
@@ -35,14 +35,14 @@ class Utilisateurs implements  UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="prenom", type="string", length=255, unique=true)
+     * @ORM\Column(name="prenom", type="string", length=255)
      */
     private $prenom;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=255, unique=true)
+     * @ORM\Column(name="adresse", type="string", length=255)
      */
     private $adresse;
 
