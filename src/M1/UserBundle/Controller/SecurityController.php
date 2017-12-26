@@ -18,7 +18,7 @@ class SecurityController extends Controller
     public function loginAction(Request $request)
     {
 
-       
+
 
             // Si le visiteur est déjà identifié, on le redirige vers l'accueil
             if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -70,6 +70,7 @@ class SecurityController extends Controller
       $form->handleRequest($request);
       $user->setSalt('');
         $user->setRoles(array('ROLE_USER'));
+        $user->setAdresse('');
 
       if($form->isValid()&& $form->isSubmitted())
       {
