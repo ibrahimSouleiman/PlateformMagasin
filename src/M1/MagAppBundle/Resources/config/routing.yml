@@ -4,22 +4,22 @@ m1_mag_app_homepage:
 
 
 add_prod:
-    path: /Ajout_Produit
+    path: /Magasinier/Ajout_Produit
     defaults: {_controller: M1MagAppBundle:Produit:add}  
 
 
 add_categorie:
-    path: /ajout_Categorie
+    path: /Magasinier/ajout_Categorie
     defaults: {_controller: M1MagAppBundle:Categorie:add}  
 
 saved_categorie:
-    path: /Save_Cat
+    path: /Magasinier/Save_Cat
     defaults: {_controller: M1MagAppBundle:Categorie:add}  
 
 list_stock:
-    path: /stock
+    path: /Magasinier/stock
     defaults: {_controller: M1MagAppBundle:Produit:listStock}  
 
 update_stock:
-    path: /setStock/{id}
+    path: /Magasinier/setStock/{id}
     defaults: {_controller: M1MagAppBundle:Produit:updateStock}  

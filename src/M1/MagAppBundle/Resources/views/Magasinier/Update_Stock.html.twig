@@ -9,5 +9,15 @@ Catégorie: {{ produit.categorie.libelleCategorie }}  <br/>
 Quantité: {{ produit.quantite }} <br/>
 Prix: {{ produit.prix }} <br/>
 
+{{ form_start(form) }}
+
+{{ form_errors(form) }}
+
+    {{ form_widget(form) }}
+
+ {{ form_widget(form.save) }}
+
+{{ form_end(form) }}
+
 
 {% endblock %}

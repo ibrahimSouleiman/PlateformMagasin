@@ -26,6 +26,7 @@ class ProduitType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class)
+            ->add('reference', TextType::class)
             ->add('prix', TextType::class)
             ->add('quantite', TextType::class)
             ->add('details', TextareaType::class)
