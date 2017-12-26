@@ -24,9 +24,9 @@ class Categories
     /**
      * @var string
      *
-     * @ORM\Column(name="nomCategorie", type="string", length=150)
+     * @ORM\Column(name="LibelleCategorie", type="string", length=100)
      */
-    private $nomCategorie;
+    private $libelleCategorie;
 
 
     /**
@@ -40,27 +40,27 @@ class Categories
     }
 
     /**
-     * Set nomCategorie
+     * Set libelleCategoriele
      *
-     * @param string $nomCategorie
+     * @param string $libelleCategoriele
      *
      * @return Categories
      */
-    public function setNomCategorie($nomCategorie)
+    public function setLibelleCategorie($libelleCategorie)
     {
-        $this->nomCategorie = $nomCategorie;
+        $this->libelleCategoriele = $libelleCategoriele;
 
         return $this;
     }
 
     /**
-     * Get nomCategorie
+     * Get libelleCategoriele
      *
      * @return string
      */
-    public function getNomCategorie()
+    public function getLibelleCategoriele()
     {
-        return $this->nomCategorie;
+        return $this->libelleCategoriele;
     }
 }
 

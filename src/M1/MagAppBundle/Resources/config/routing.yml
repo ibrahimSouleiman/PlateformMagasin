@@ -1,3 +1,9 @@
 m1_mag_app_homepage:
     path:     /
-    defaults: { _controller: M1MagAppBundle:Default:index }
+    defaults: { _controller: M1MagAppBundle:Produit:index }
+m1_mag_app_detailpage:
+    path:     /detail/{ref}
+    defaults: { _controller: M1MagAppBundle:Produit:detail }
+
+
+
