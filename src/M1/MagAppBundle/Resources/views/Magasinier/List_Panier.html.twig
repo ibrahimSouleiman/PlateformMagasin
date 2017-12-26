@@ -1,0 +1,27 @@
+{% extends "M1MagAppBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+
+<h3>Listes des paniers</h3>
+
+<table >
+	<th>Description</th>
+	<th>Nom</th>
+	<th>Prenom</th>
+	<th>Etat</th>
+	<th>Validé</th>
+
+	{% for panier in paniers %}
+       <tr>
+            <td> {{ panier.description }}   </td>
+            <td> {{ panier.utilisateur.nom }} </td>
+            <td> {{ panier.utilisateur.prenom }} </td>
+            <td> {{ panier.etat }} </td>
+       </tr>
+    {% endfor %}
+
+  </table>
+
+{% endblock %}

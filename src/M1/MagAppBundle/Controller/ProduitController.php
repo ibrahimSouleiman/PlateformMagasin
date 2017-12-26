@@ -8,7 +8,7 @@ use M1\MagAppBundle\Entity\Paniers;
 
 /**************forms******************/
 use M1\MagAppBundle\Form\PaniersType;
-
+use M1\MagAppBundle\Form\ProduitType;
 /********************************/
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
