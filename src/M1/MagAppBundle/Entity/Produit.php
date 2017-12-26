@@ -28,6 +28,14 @@ class Produit
      */
     private $nom;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reference", type="string", length=200)
+     */
+    private $reference;
+
     /**
      * @var string
      *
@@ -97,6 +105,33 @@ class Produit
     {
         return $this->nom;
     }
+
+
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return Produit
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
 
      /**
      * Set idcategorie

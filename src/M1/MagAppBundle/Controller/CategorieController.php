@@ -17,7 +17,6 @@ class CategorieController extends Controller
     	
         $form = $this->get('form.factory')->create(CategoriesType::class, $categorie)
         ->add('save', SubmitType::class, array('label' => 'Enregistrer'));
-       /* $form = $this->createFormBuilder($categorie)->add('save', SubmitType::class, array('label' => 'Enregistrer'))->getForm();*/
 
 
 
@@ -34,7 +33,6 @@ class CategorieController extends Controller
     return $this->render('M1MagAppBundle:Magasinier:Form_Ajout_Categorie.html.twig', array(
       'form' => $form->createView(),
     ));
-
-        //return $this->render('M1MagAppBundle:Default:index.html.twig');
     }
+
 }

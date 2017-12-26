@@ -15,3 +15,11 @@ add_categorie:
 saved_categorie:
     path: /Save_Cat
     defaults: {_controller: M1MagAppBundle:Categorie:add}  
+
+list_stock:
+    path: /stock
+    defaults: {_controller: M1MagAppBundle:Produit:listStock}  
+
+update_stock:
+    path: /setStock/{id}
+    defaults: {_controller: M1MagAppBundle:Produit:updateStock}  

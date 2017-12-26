@@ -1,0 +1,25 @@
+{% extends "M1MagAppBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+
+	<h3> Produit du stock </h3>
+
+	<table border="2">
+
+	{% for produit in produits %}
+       <tr>
+            <td> {{ produit.nom }}   </td>
+            <td> {{ produit.prix }} </td>
+            <td> {{ produit.quantite }} </td>
+            <td> {{ produit.categorie.libelleCategorie }} </td>
+
+            <td> <a href="{{ path('update_stock', {"id": produit.id}) }}">Alimenter le stock </a> </td>
+       </tr>
+    {% endfor %}
+
+    </table>
+
+
+{% endblock %}
