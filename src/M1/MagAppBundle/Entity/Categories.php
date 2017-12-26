@@ -48,6 +48,7 @@ class Categories
      */
     public function setLibelleCategorie($libelleCategorie)
     {
+
         $this->libelleCategorie = $libelleCategorie;
 
         return $this;
@@ -58,9 +59,13 @@ class Categories
      *
      * @return string
      */
+
     public function getLibelleCategorie()
     {
         return $this->libelleCategorie;
     }
+
+
+    
 }
 

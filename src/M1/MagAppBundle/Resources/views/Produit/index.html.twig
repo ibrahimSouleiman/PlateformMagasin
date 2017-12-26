@@ -1,0 +1,33 @@
+{# src/M1/MagAppBundle/Resources/views/Produit/index.html.twig #}
+
+<html><body>
+Liste de Produits
+
+{% if is_granted ('IS_AUTHENTICATED_FULLY') %}
+<a href="/logout">Deconnecter</a>
+
+{% else  %}
+    <a href="/login">Connecter</a>
+
+{% endif %}
+
+<table  cellspacing="50" >
+    <tr>
+
+    {% for p in Produit %}
+<td width="10" height="20">
+    {{ p.nom }}
+
+    <a href="detail/{{p.id}}">
+    <img src="http://i2.cdscdn.com/pdt2/3/7/1/1/700x700/del5397063620371/rw/dell-disque-dur-externe-2to-usb-3-0.jpg" height="300" >
+    </a>
+
+    {{ p.prix }} euros
+
+</td>
+
+{% endfor %}
+    </tr>
+
+</table>
+</body></html>

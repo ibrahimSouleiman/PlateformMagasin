@@ -1,0 +1,23 @@
+{# src/M1/UserBundle/Resources/views/Security/login.html.twig #}
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+
+
+    {# Le formulaire, avec URL de soumission vers la route « login_check » comme on l'a vu #}
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+
+            <h3 class="text-center">Création d'un Compte</h3>
+        </div>
+        <div class="panel-body">
+
+            {{ form(form) }}
+        </div>
+
+    </div>
+
+{% endblock %}

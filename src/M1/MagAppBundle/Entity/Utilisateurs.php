@@ -3,14 +3,17 @@
 namespace M1\MagAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Utilisateurs
  *
  * @ORM\Table(name="utilisateurs")
  * @ORM\Entity(repositoryClass="M1\MagAppBundle\Repository\UtilisateursRepository")
+ * @UniqueEntity(fields={"username"},message="Email existe déjà")
  */
-class Utilisateurs
+class Utilisateurs implements  UserInterface
 {
     /**
      * @var int
@@ -21,50 +24,60 @@ class Utilisateurs
      */
     private $id;
 
-    /**
+     /**
      * @var string
      *
-     * @ORM\Column(name="motdepasse", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
      */
-    private $motdepasse;
+      private $nom;
+
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nomUtilisateur", type="string", length=255)
+     * @ORM\Column(name="prenom", type="string", length=255, unique=true)
      */
-    private $nomUtilisateur;
-
+    private $prenom;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=255)
-     */
-    private $nom;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=255)
-     */
-    private $prenom;
-
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=255)
+     * @ORM\Column(name="adresse", type="string", length=255, unique=true)
      */
     private $adresse;
 
-   
     /**
-    * @ORM\ManyToOne(targetEntity="Types")
-    */
-    
-    private $type; 
+     * @var string
+     * @Assert\Email()
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
+     */
+    private $username;
+
+    /**
+     * @var string
+     * @ORM\Column(name="password", type="string", length=255)
+     */
+    private $password;
+
+
+    /**
+     * @ORM\Column(name="salt", type="string", length=255)
+     */
+    private $salt;
+
+    /**
+     * @ORM\Column(name="roles", type="array")
+     */
+    private $roles = array();
+
+    // Les getters et setters
+
+    public function eraseCredentials()
+    {
+    }
+
    
+
 
      /**
      * Get id
@@ -77,6 +90,7 @@ class Utilisateurs
     }
 
 
+   
      /**
      * Get nom
      *
@@ -86,7 +100,6 @@ class Utilisateurs
     {
         return $this->nom;
     }
-
   /**
      * Set nom
      *
@@ -97,11 +110,8 @@ class Utilisateurs
     public function setNom($nom)
     {
         $this->nom = $nom;
-
         return $this;
     }
-
-
    /**
      * Get prenom
      *
@@ -111,7 +121,6 @@ class Utilisateurs
     {
         return $this->prenom;
     }
-
   /**
      * Set prenom
      *
@@ -122,11 +131,8 @@ class Utilisateurs
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
-
         return $this;
     }
-
-
    /**
      * Get adresse
      *
@@ -136,7 +142,6 @@ class Utilisateurs
     {
         return $this->adresse;
     }
-
   /**
      * Set adresse
      *
@@ -147,42 +152,19 @@ class Utilisateurs
     public function setAdresse($adresse)
     {
         $this->adresse = $adresse;
-
         return $this;
     }
 
-  /**
-     * Get idtype
-     *
-     * @return int
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set idType
-     *
-     * @param string $idtype
-     *
-     * @return Utilisateurs
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
+    
 
     /**
      * Get motdepasse
      *
      * @return string
      */
-    public function getMotdepasse()
+    public function getPassword()
     {
-        return $this->motdepasse;
+        return $this->password;
     }
 
   /**
@@ -192,11 +174,59 @@ class Utilisateurs
      *
      * @return Utilisateurs
      */
-    public function setMotdepasse($motdepasse)
+    public function setPassword($password)
     {
-        $this->motdepasse = $motdepasse;
+        $this->password = $password;
 
         return $this;
+    }
+
+
+
+    /**
+     * Set Salt
+     * @param $salt
+     *
+     * @return Utilisateurs
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+        return $this;
+    }
+
+    /**
+     * Get Salt
+     *
+     * @return Salt
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set Roles
+     *
+     * @param $roles
+     *
+     * @return Utilisateurs
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Get Roles
+     *
+     * @return Roles
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 
     /**
@@ -206,9 +236,9 @@ class Utilisateurs
      *
      * @return Utilisateurs
      */
-    public function setNomUtilisateur($nomUtilisateur)
+    public function setUsername($username)
     {
-        $this->nomUtilisateur = $nomUtilisateur;
+        $this->username = $username;
 
         return $this;
     }
@@ -218,9 +248,9 @@ class Utilisateurs
      *
      * @return string
      */
-    public function getNomUtilisateur()
+    public function getUsername()
     {
-        return $this->nomUtilisateur;
+        return $this->username;
     }
 }
 
