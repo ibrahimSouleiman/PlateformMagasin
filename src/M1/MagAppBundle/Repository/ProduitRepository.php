@@ -10,4 +10,5 @@ namespace M1\MagAppBundle\Repository;
  */
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
+	
 }

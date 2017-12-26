@@ -29,3 +29,7 @@ update_stock:
     path: /Magasinier/setStock/{id}
     defaults: {_controller: M1MagAppBundle:Produit:updateStock}  
 
+list_panier:
+    path: /Magasinier/panier
+    defaults: {_controller: M1MagAppBundle:Panier:listPanier}  
+
