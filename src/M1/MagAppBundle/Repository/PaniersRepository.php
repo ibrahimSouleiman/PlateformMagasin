@@ -16,7 +16,7 @@ class PaniersRepository extends \Doctrine\ORM\EntityRepository
 	{
         $qb = $this->createQueryBuilder('p');
 
-        $qb->where('p.etat = :etat')->setParameter('etat', 'nonvalide');
+        $qb->where('p.etat = :etat')->setParameter('etat', 'valide');
 
        return $qb->getQuery()->getResult();
    }
