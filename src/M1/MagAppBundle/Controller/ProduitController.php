@@ -46,15 +46,31 @@ class ProduitController extends Controller
 }
 
     /**
-     *  @Security("has_role('ROLE_USER')")
+     *  #@Security("has_role('ROLE_ADMIN')")
      */
     public function detailAction(Request $request,$ref)
     {
         $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
+        $repositoryUser = $this->getDoctrine()->getRepository('M1MagAppBundle:Utilisateurs');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        //recuperation de l'id de l'utisateur
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $em = $this->getDoctrine()->getManager();
         // On récupère l'entité correspondante à l'id $id
         $produit = $repository->findOneById($ref);
-        $panier= new Paniers();
+
+
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+        if($panier == null){
+
+            $panier = new Paniers();
+            $panier->setEtat("Actif");
+            $panier->setUtilisateur($user);
+            $panier->setDescription("Mon Premier Panier");
+        }
+
         $form = $this->createForm(PaniersType::class, $panier);
         $form->handleRequest($request);
 
@@ -66,28 +82,30 @@ class ProduitController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //    if (!$this->get('security.authorization_checkert')->isGranted('ROLE_AUTEUR')) {
+                if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
 
-                // Sinon on déclenche une exception « Accès interdit »
-               // return $this->redirectToRoute('lieu');
+                    // Sinon on déclenche une exception « Accès interdit »
+                    // return $this->redirectToRoute('lieu');
 
-              //  throw new AccessDeniedException('Accès limité aux auteurs.');
-                /*
-                $panier->setEtat("Actif");
-                $panier->setDescription("Mon Premier Panier");
-                $em->persist($panier);
-                $em->flush();
-                $commande = new Commandes();
-                $commande->setProduit($produit);
-                $commande->setPanier($panier);
-                $commande->setQuantite(5);
+                    //  throw new AccessDeniedException('Accès limité aux auteurs.');
 
-                $em->persist($commande);
-                $em->flush();
 
-                return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
-                    'Produit' => $produit
-                ));*/
+                    $em->persist($panier);
+                    $em->flush();
+                    $commande = new Commandes();
+                    $commande->setProduit($produit);
+                    $commande->setPanier($panier);
+                    $commande->setQuantite(5);
+
+                    $em->persist($commande);
+                    $em->flush();
+
+                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                        'Produit' => $produit
+                    ));
+                }else{
+                    return $this->redirectToRoute('login');
+                }
 
         }
            return $this->render('M1MagAppBundle:Produit:detail.html.twig', array(
@@ -96,6 +114,23 @@ class ProduitController extends Controller
 
     }
 
+    public function voirmonpanierAction()
+    {
+         $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+         $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $commades = $repositoryCommande->findOneByPanier($panier);
+
+
+
+       return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('Commande'=> $commades,'user'=>$user->getId()));
+
+    }
+
+    /**************************************************************************************************************/
 
     public function addAction(Request $request)
     {
