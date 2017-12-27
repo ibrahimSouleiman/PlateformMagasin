@@ -27,7 +27,7 @@ class CategorieController extends Controller
 
              $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-             return $this->redirectToRoute('Save_Cat', array('id' => $categorie->getId()));
+             return $this->redirectToRoute('saved_categorie', array('id' => $categorie->getId()));
     }
 
     return $this->render('M1MagAppBundle:Magasinier:Form_Ajout_Categorie.html.twig', array(

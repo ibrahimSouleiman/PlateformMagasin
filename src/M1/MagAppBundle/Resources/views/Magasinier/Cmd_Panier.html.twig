@@ -1,0 +1,38 @@
+
+{% extends "M1MagAppBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+
+
+<h3>Détails du panier</h3>
+
+<table >
+	<th>Panier</th>
+	<th>Nom</th>
+	<th>Prenom</th>
+	<th>Etat</th>
+	<th>Validé</th>
+  <th>Description</th>
+
+	{% for panier in panier. %}
+       <tr>
+            <td> {{ panier.description }}   </td>
+            <td> {{ panier.utilisateur.nom }} </td>
+            <td> {{ panier.utilisateur.prenom }} </td>
+            <td> {{ panier.etat }} </td>
+            <td><a href="{{ path('valide_panier', {'id': panier.id}) }}"> Validé </a> </td>
+            <td> <a href="{{ path('details_panier', {'id': panier.id}) }}"> Détails </a> </td>
+       </tr>
+    {% endfor %}
+
+  </table>
+
+
+<br/>
+ Pour revenir à l'ajout de Produit cliquer <a href="{{ path('add_prod')}}">ici</a>
+
+
+{% endblock %}
+

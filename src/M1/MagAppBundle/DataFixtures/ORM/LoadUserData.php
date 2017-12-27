@@ -20,9 +20,10 @@ class LoadUserData implements FixtureInterface
             // Le nom d'utilisateur et le mot de passe sont identiques
             $user->setUsername($name);
             $user->setPassword($name);
+
+            $user->setPrenom('jean');
+            $user->setAdresse('13 rue Moulin');
             $user->setNom($name);
-            $user->setPrenom('');
-            $user->setAdresse('');
 
             // On ne se sert pas du sel pour l'instant
             $user->setSalt('');
