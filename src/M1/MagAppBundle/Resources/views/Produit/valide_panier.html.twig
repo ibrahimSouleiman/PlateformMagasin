@@ -6,7 +6,73 @@
 {% block body %}
 
 
-   
+   <h1>Validation</h1>
 
+
+    <table cellpadding="50">
+        <th>
+
+        </th>
+        <th></th>
+        <th>Prix</th>
+        <th>Quantite</th>
+        {% set nombreProduit=0 %}
+        {% set prixTotal=0 %}
+
+        {% for commande in commandes %}
+            {% set nombreProduit=nombreProduit+1 %}
+            {% set prixTotal=prixTotal+(commande.produit.prix) %}
+
+            <tr>
+                <td>    <img src="http://i2.cdscdn.com/pdt2/3/7/1/1/700x700/del5397063620371/rw/dell-disque-dur-externe-2to-usb-3-0.jpg" height="100" >
+                </td>
+                <td>
+                    <h3 style="color: #0000F0">{{ commande.produit.nom }}</h3>
+                    <h3>{{ commande.produit.details }}</h3>
+
+
+                </td>
+                <td>
+
+                    <h3 style="color:red"> EUR {{ commande.produit.prix }}</h3>
+                </td>
+                <td>
+
+
+                </td>
+            </tr>
+
+        {% endfor %}
+
+
+
+        </table>
+
+
+    {% if (commandes != null) %}
+        <div style="margin-left: 1100;margin-top: -400;height: 130;width: 230;background-color:#868686">
+            <h4> Sous-Total:{{ nombreProduit }}</h4>
+            <h3 style="color:red">EUR {{ prixTotal }}</h3>
+        </div>
+
+    {% endif %}
+    </tr>
+
+
+
+    </table>
+    <h3>Adresse</h3>
+
+        <h3 style="color: #222222">{{ Adresse.nom }}</h3>
+
+        <h5>{{ Adresse.adresse }}</h5>
+        <h5>{{ Adresse.ville}},{{ Adresse.codepostal}}</h5>
+
+        <h5>{{ Adresse.pays }} </h5>
+
+
+      <form method="post">
+          <button type="submit"> Valider</button>
+      </form>
 
 {% endblock %}

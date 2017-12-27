@@ -42,7 +42,7 @@ class Paniers
     private $utilisateur;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Adresses")
+     * @ORM\ManyToOne(targetEntity="Adresses",fetch="EAGER")
      */
     private $adresse;
 

@@ -3,6 +3,7 @@
 namespace M1\MagAppBundle\Controller;
 
 /***********Entities*********************/
+use M1\MagAppBundle\Entity\Adresses;
 use M1\MagAppBundle\Entity\Commandes;
 use M1\MagAppBundle\Entity\Produit;
 use M1\MagAppBundle\Entity\Paniers;
@@ -33,18 +34,40 @@ class PanierController extends Controller
         $repositoryAdresse= $this->getDoctrine()->getRepository('M1MagAppBundle:Adresses');
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $adresse = $repositoryAdresse->findOneById($refadresse);
-        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+        $adresse = $em->getRepository(Adresses::class)->findOneById($refadresse);
+        $panier=  $em->getRepository(Paniers::class)->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
 
-        $panier->setAdresse($adresse);
-        $em->persist($panier);
-        $em->flush();
+          $panier->setAdresse($adresse);
+          $em->persist($panier);
+          $em->flush();
 
 
-        return $this->render("M1MagAppBundle:Produit:choixadresse.html.twig", array('Adresses'=> $adresse,'user'=>$user));
-
+        return $this->redirectToRoute('m1_mag_app_validerpanierpage');
     }
 
+
+    public function valideAction(Request $request)
+    {
+        $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+        $commandes = $repositoryCommande->findByPanier($panier);
+
+        if ($request->isMethod('POST') ) {
+            $em = $this->getDoctrine()->getManager();
+
+            $panier->setEtat("valider");
+            $em->flush();
+
+            return $this->redirectToRoute('m1_mag_app_homepage');
+
+        }
+
+        return $this->render("M1MagAppBundle:Produit:valide_panier.html.twig", array('commandes'=> $commandes,'Adresse' => $panier->getAdresse(),'user'=>$user->getId()));
+
+    }
 /*****************************************************************************************/
  public function listPanierAction(Request $request)
     {

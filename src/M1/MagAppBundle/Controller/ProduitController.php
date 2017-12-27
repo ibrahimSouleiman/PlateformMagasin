@@ -2,6 +2,7 @@
 
 namespace M1\MagAppBundle\Controller;
 /***********Entities*********************/
+use M1\MagAppBundle\Entity\Adresses;
 use M1\MagAppBundle\Entity\Commandes;
 use M1\MagAppBundle\Entity\Produit;
 use M1\MagAppBundle\Entity\Paniers;
@@ -53,6 +54,7 @@ class ProduitController extends Controller
         $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
         $repositoryUser = $this->getDoctrine()->getRepository('M1MagAppBundle:Utilisateurs');
         $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+        $repositoryAdresse = $this->getDoctrine()->getRepository('M1MagAppBundle:Adresses');
 
         //recuperation de l'id de l'utisateur
         $user = $this->get('security.token_storage')->getToken()->getUser();
