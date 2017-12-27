@@ -24,6 +24,28 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PanierController extends Controller
 {
+
+    public function enregistreadresseAction($refadresse)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $repositoryPanier= $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+        $repositoryAdresse= $this->getDoctrine()->getRepository('M1MagAppBundle:Adresses');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $adresse = $repositoryAdresse->findOneById($refadresse);
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $panier->setAdresse($adresse);
+        $em->persist($panier);
+        $em->flush();
+
+
+        return $this->render("M1MagAppBundle:Produit:choixadresse.html.twig", array('Adresses'=> $adresse,'user'=>$user));
+
+    }
+
+/*****************************************************************************************/
  public function listPanierAction(Request $request)
     {
            $Panier = new Paniers();

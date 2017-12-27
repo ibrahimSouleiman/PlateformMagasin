@@ -1,0 +1,25 @@
+
+{% extends "M1MagAppBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+
+
+    <h3>Ajout Adresse</h3>
+
+
+    {{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    {{ form_widget(form) }}
+
+    {{ form_widget(form.save) }}
+
+    {{ form_end(form) }}
+
+    <br/>
+
+
+{% endblock %}

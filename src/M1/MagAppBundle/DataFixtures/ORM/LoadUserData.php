@@ -22,7 +22,6 @@ class LoadUserData implements FixtureInterface
             $user->setPassword($name);
 
             $user->setPrenom('jean');
-            $user->setAdresse('13 rue Moulin');
             $user->setNom($name);
 
             // On ne se sert pas du sel pour l'instant

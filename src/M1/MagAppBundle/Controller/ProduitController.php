@@ -122,11 +122,10 @@ class ProduitController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
 
-        $commades = $repositoryCommande->findOneByPanier($panier);
+        $commandes = $repositoryCommande->findByPanier($panier);
 
 
-
-       return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('Commande'=> $commades,'user'=>$user->getId()));
+      return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('commandes'=> $commandes,'user'=>$user->getId()));
 
     }
 

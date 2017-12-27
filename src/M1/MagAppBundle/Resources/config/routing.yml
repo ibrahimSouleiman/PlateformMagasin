@@ -10,6 +10,22 @@ m1_mag_app_voirPanierpage:
     path:     /MonPanier
     defaults: { _controller: M1MagAppBundle:Produit:voirmonpanier }
 
+m1_mag_app_choixadressepage:
+    path:     /choixadresse
+    defaults: { _controller: M1MagAppBundle:Adresse:choixadresse }
+
+m1_mag_app_panieradressepage:
+    path:     /Panier/adresse/{refadresse}
+    defaults: { _controller: M1MagAppBundle:Panier:enregistreadresse }
+
+m1_mag_app_addadressepage:
+    path:     /addadresse
+    defaults: { _controller: M1MagAppBundle:Adresse:addadresse }
+
+m1_mag_app_validerpanierpage:
+    path:     /Panier/valider
+    defaults: { _controller: M1MagAppBundle:Panier:valide }
+
 add_prod:
     path: /Magasinier/Ajout_Produit
     defaults: {_controller: M1MagAppBundle:Produit:add}  
