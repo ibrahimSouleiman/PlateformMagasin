@@ -110,12 +110,16 @@ class ProduitController extends Controller
                     // return $this->redirectToRoute('lieu');
 
                     //  throw new AccessDeniedException('Accès limité aux auteurs.');
-
+                    $today = date("Y-m-d H:i:s");
+                    $time = new \DateTime();
+                    $time->format('Y-m-d H:i:s');
 
                     $em->persist($panier);
                     $em->flush();
                     $commande->setProduit($produit);
                     $commande->setPanier($panier);
+                    $commande->setDateHoraireAjout($time);
+                    $commande->setDateHoraireValide($time);
 
                     $em->persist($commande);
                     $em->flush();

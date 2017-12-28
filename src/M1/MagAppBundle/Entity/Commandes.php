@@ -25,7 +25,7 @@ class Commandes
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateHoraireValide", type="datetimetz")
+     * @ORM\Column(name="dateHoraireValide", type="datetime")
      */
     private $dateHoraireValide;
 
@@ -33,9 +33,17 @@ class Commandes
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateHoraireAjout", type="datetimetz")
+     * @ORM\Column(name="dateHoraireAjout", type="datetime")
      */
     private $dateHoraireAjout;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etat", type="string", length=255)
+     */
+    private $etat;
+
 
     /**
     *
@@ -66,9 +74,6 @@ class Commandes
     {
         return $this->id;
     }
-
-
-
     /**
      * Set dateHoraireValide
      *
@@ -76,7 +81,7 @@ class Commandes
      *
      * @return Ventes
      */
-    public function setDateHorairValide($dateHoraireValide)
+    public function setDateHoraireValide($dateHoraireValide)
     {
         $this->dateHoraireValide = $dateHoraireValide;
 
@@ -92,16 +97,6 @@ class Commandes
     {
         return $this->dateHoraireValide;
     }
-
-
-
-
-
-
-
-
-
-
     /**
      * Set dateHoraire
      *
@@ -114,6 +109,29 @@ class Commandes
         $this->$dateHoraireAjout = $dateHoraireAjout;
 
         return $this;
+    }
+    /**
+     * Set etat
+     *
+     * @param string $etat
+     *
+     * @return Paniers
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return string
+     */
+    public function getEtat()
+    {
+        return $this->etat;
     }
 
     /**

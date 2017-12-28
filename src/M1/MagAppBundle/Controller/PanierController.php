@@ -57,8 +57,12 @@ class PanierController extends Controller
 
         if ($request->isMethod('POST') ) {
             $em = $this->getDoctrine()->getManager();
+            $today = date("Y-m-d H:i:s");
 
             $panier->setEtat("valider");
+
+            $commandes->setDateHoraireValide($today);
+
             $em->flush();
 
             return $this->redirectToRoute('m1_mag_app_homepage');

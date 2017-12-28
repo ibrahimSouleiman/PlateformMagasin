@@ -103,7 +103,7 @@ class Paniers
         return $this->adresse;
     }
 
-/**
+     /**
      * Set etat
      *
      * @param string $etat
