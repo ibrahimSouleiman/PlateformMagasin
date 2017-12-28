@@ -2,6 +2,7 @@
 
 namespace M1\MagAppBundle\Controller;
 /***********Entities*********************/
+use M1\MagAppBundle\Entity\Adresses;
 use M1\MagAppBundle\Entity\Commandes;
 use M1\MagAppBundle\Entity\Produit;
 use M1\MagAppBundle\Entity\Paniers;
@@ -9,13 +10,17 @@ use M1\MagAppBundle\Entity\Paniers;
 /**************forms******************/
 use M1\MagAppBundle\Form\PaniersType;
 use M1\MagAppBundle\Form\ProduitType;
+use M1\MagAppBundle\Form\CommandesTypeType;
+
 /********************************/
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 /********************************/
 
 class ProduitController extends Controller
@@ -30,7 +35,14 @@ class ProduitController extends Controller
     $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
 
     // On récupère l'entité correspondante à l'id $id
-    $produit = $repository->findAll();
+    $em = $this->getDoctrine()->getManager();
+    $query = $em->createQuery(
+        'SELECT p
+    FROM M1MagAppBundle:Produit p
+    WHERE p.quantite > :quantite'
+    )->setParameter('quantite', 0);
+    $produit = $query->getResult();
+    //$produit = $repository->findBy(array('quantite'=>">0"));
 
     // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
     // ou null si l'id $id  n'existe pas, d'où ce if :
@@ -46,16 +58,42 @@ class ProduitController extends Controller
 }
 
     /**
-     *  @Security("has_role('ROLE_USER')")
+     *  #@Security("has_role('ROLE_ADMIN')")
      */
     public function detailAction(Request $request,$ref)
     {
         $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
+        $repositoryUser = $this->getDoctrine()->getRepository('M1MagAppBundle:Utilisateurs');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+        $repositoryAdresse = $this->getDoctrine()->getRepository('M1MagAppBundle:Adresses');
+
+        //recuperation de l'id de l'utisateur
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
         $em = $this->getDoctrine()->getManager();
         // On récupère l'entité correspondante à l'id $id
         $produit = $repository->findOneById($ref);
-        $panier= new Paniers();
-        $form = $this->createForm(PaniersType::class, $panier);
+
+
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+        if($panier == null){
+
+            $panier = new Paniers();
+            $panier->setEtat("Actif");
+            $panier->setUtilisateur($user);
+            $panier->setDescription("Mon Premier Panier");
+        }
+
+        $commande=new Commandes();
+      //  $form = $this->createForm(CommandesType::class, $commande);
+
+        $form = $this->createFormBuilder($commande)
+            ->setMethod('POST')
+//                ->setAction($this->generateUrl('setStock/'.$id))
+            ->add('quantite',ChoiceType::class, array(
+                   'choices' => array(array_combine(range(1,$produit->getQuantite()),range(1,$produit->getQuantite())))))
+            ->add('save', SubmitType::class,array('label'=> 'Ajouter '))
+            ->getForm();
         $form->handleRequest($request);
 
         // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
@@ -66,28 +104,35 @@ class ProduitController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //    if (!$this->get('security.authorization_checkert')->isGranted('ROLE_AUTEUR')) {
+                if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
 
-                // Sinon on déclenche une exception « Accès interdit »
-               // return $this->redirectToRoute('lieu');
+                    // Sinon on déclenche une exception « Accès interdit »
+                    // return $this->redirectToRoute('lieu');
 
-              //  throw new AccessDeniedException('Accès limité aux auteurs.');
-                /*
-                $panier->setEtat("Actif");
-                $panier->setDescription("Mon Premier Panier");
-                $em->persist($panier);
-                $em->flush();
-                $commande = new Commandes();
-                $commande->setProduit($produit);
-                $commande->setPanier($panier);
-                $commande->setQuantite(5);
+                    //  throw new AccessDeniedException('Accès limité aux auteurs.');
 
-                $em->persist($commande);
-                $em->flush();
 
-                return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
-                    'Produit' => $produit
-                ));*/
+                    $em->persist($panier);
+                    $em->flush();
+                    $commande->setProduit($produit);
+                    $commande->setPanier($panier);
+                    $commande->setDateHoraireAjout(new \DateTime("now"));
+                    $commande->setDateHoraireValide(new \DateTime("now"));
+                    $commande->setEtat("Initial");
+                    $em->persist($commande);
+                    $em->flush();
+                    $query = $em->createQuery(
+                        'SELECT p
+                         FROM M1MagAppBundle:Produit p
+                         WHERE p.quantite > :quantite'
+                    )->setParameter('quantite', 0);
+                    $produit = $query->getResult();
+                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                        'Produit' => $produit
+                    ));
+                }else{
+                    return $this->redirectToRoute('login');
+                }
 
         }
            return $this->render('M1MagAppBundle:Produit:detail.html.twig', array(
@@ -96,6 +141,36 @@ class ProduitController extends Controller
 
     }
 
+    /**
+     * @param $nb
+     */
+    public  function getAllChoice($nb)
+    {
+        $array=[];
+
+     /*   for ($i in $nb){
+
+            $array
+        }
+*/
+    }
+
+    public function voirmonpanierAction()
+    {
+         $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+         $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $commandes = $repositoryCommande->findByPanier($panier);
+
+
+      return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('commandes'=> $commandes,'user'=>$user->getId()));
+
+    }
+
+    /**************************************************************************************************************/
 
     public function addAction(Request $request)
     {

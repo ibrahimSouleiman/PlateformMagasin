@@ -36,18 +36,15 @@ class Paniers
     private $description;
 
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=255)
-     */
-    private $adresse;
-
     /**
     * @ORM\ManyToOne(targetEntity="Utilisateurs")
     */
     private $utilisateur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Adresses",fetch="EAGER")
+     */
+    private $adresse;
 
     /**
      * Get id
@@ -99,14 +96,14 @@ class Paniers
     /**
      * Get adresse
      *
-     * @return string
+     * @return Adresse
      */
     public function getAdresse()
     {
         return $this->adresse;
     }
 
-/**
+     /**
      * Set etat
      *
      * @param string $etat

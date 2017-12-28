@@ -3,6 +3,7 @@
 namespace M1\MagAppBundle\Controller;
 
 /***********Entities*********************/
+use M1\MagAppBundle\Entity\Adresses;
 use M1\MagAppBundle\Entity\Commandes;
 use M1\MagAppBundle\Entity\Produit;
 use M1\MagAppBundle\Entity\Paniers;
@@ -25,6 +26,54 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PanierController extends Controller
 {
+
+    public function enregistreadresseAction($refadresse)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $repositoryPanier= $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+        $repositoryAdresse= $this->getDoctrine()->getRepository('M1MagAppBundle:Adresses');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $adresse = $em->getRepository(Adresses::class)->findOneById($refadresse);
+        $panier=  $em->getRepository(Paniers::class)->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+          $panier->setAdresse($adresse);
+          $em->persist($panier);
+          $em->flush();
+
+
+        return $this->redirectToRoute('m1_mag_app_validerpanierpage');
+    }
+
+
+    public function valideAction(Request $request)
+    {
+        $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+        $commandes = $repositoryCommande->findByPanier($panier);
+
+        if ($request->isMethod('POST') ) {
+            $em = $this->getDoctrine()->getManager();
+            $today = date("Y-m-d H:i:s");
+
+            $panier->setEtat("valider");
+
+            $commandes->setDateHoraireValide($today);
+
+            $em->flush();
+
+            return $this->redirectToRoute('m1_mag_app_homepage');
+
+        }
+
+        return $this->render("M1MagAppBundle:Produit:valide_panier.html.twig", array('commandes'=> $commandes,'Adresse' => $panier->getAdresse(),'user'=>$user->getId()));
+
+    }
+/*****************************************************************************************/
  public function listPanierAction(Request $request)
     {
            $Panier = new Paniers();

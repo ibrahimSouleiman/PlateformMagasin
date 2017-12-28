@@ -21,7 +21,30 @@ class Commandes
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateHoraireValide", type="datetimetz")
+     */
+    private $dateHoraireValide;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateHoraireAjout", type="datetimetz")
+     */
+    private $dateHoraireAjout;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etat", type="string", length=255)
+     */
+    private $etat;
+
+
     /**
     *
     * @ORM\ManyToOne(targetEntity="Produit")
@@ -51,6 +74,76 @@ class Commandes
     {
         return $this->id;
     }
+    /**
+     * Set dateHoraireValide
+     *
+     * @param \DateTime $dateHoraire
+     *
+     * @return Ventes
+     */
+    public function setDateHoraireValide($dateHoraireValide)
+    {
+        $this->dateHoraireValide = $dateHoraireValide;
+
+        return $this;
+    }
+
+    /**
+     * Get dateHoraire
+     *
+     * @return \DateTime
+     */
+    public function getDateHoraireValide()
+    {
+        return $this->dateHoraireValide;
+    }
+    /**
+     * Set dateHoraire
+     *
+     * @param \DateTime $dateHoraire
+     *
+     * @return Commande
+     */
+    public function setDateHoraireAjout($dateHoraireAjout)
+    {
+        $this->dateHoraireAjout = $dateHoraireAjout;
+
+        return $this;
+    }
+    /**
+     * Set etat
+     *
+     * @param string $etat
+     *
+     * @return Paniers
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return string
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Get dateHoraire
+     *
+     * @return \DateTime
+     */
+    public function getDateHoraireAjout()
+    {
+        return $this->dateHoraireAjout;
+    }
+
 
      /**
      * Set Produit

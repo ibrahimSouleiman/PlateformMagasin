@@ -39,12 +39,7 @@ class Utilisateurs implements  UserInterface
      */
     private $prenom;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=255)
-     */
-    private $adresse;
+
 
     /**
      * @var string
@@ -133,30 +128,6 @@ class Utilisateurs implements  UserInterface
         $this->prenom = $prenom;
         return $this;
     }
-   /**
-     * Get adresse
-     *
-     * @return string
-     */
-    public function getAdresse()
-    {
-        return $this->adresse;
-    }
-  /**
-     * Set adresse
-     *
-     * @param string $adresse
-     *
-     * @return Utilisateurs
-     */
-    public function setAdresse($adresse)
-    {
-        $this->adresse = $adresse;
-        return $this;
-    }
-
-    
-
     /**
      * Get motdepasse
      *
