@@ -25,7 +25,7 @@ class Commandes
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateHoraireValide", type="datetime")
+     * @ORM\Column(name="dateHoraireValide", type="datetimetz")
      */
     private $dateHoraireValide;
 
@@ -33,7 +33,7 @@ class Commandes
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateHoraireAjout", type="datetime")
+     * @ORM\Column(name="dateHoraireAjout", type="datetimetz")
      */
     private $dateHoraireAjout;
 
@@ -106,7 +106,7 @@ class Commandes
      */
     public function setDateHoraireAjout($dateHoraireAjout)
     {
-        $this->$dateHoraireAjout = $dateHoraireAjout;
+        $this->dateHoraireAjout = $dateHoraireAjout;
 
         return $this;
     }
