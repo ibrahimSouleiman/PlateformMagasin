@@ -38,6 +38,6 @@ valide_panier:
     defaults: {_controller: M1MagAppBundle:Panier:validerPanier}  
 
 details_panier:
-    path: /Magasinier/detailsPanier/{id}
-    defaults: {_controller: M1MagAppBundle:Panier:detailsPanier}  
+    path: /Magasinier/listCommande/{id}
+    defaults: {_controller: M1MagAppBundle:Commande:listCommande}  
 

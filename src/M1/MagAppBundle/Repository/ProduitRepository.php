@@ -10,5 +10,12 @@ namespace M1\MagAppBundle\Repository;
  */
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
-	
+	public function findProduit($id)
+	{
+        $query = $this->createQueryBuilder('p');
+
+        $query->where('p.id = :id')->setParameter('id', $id);
+
+       return $query->getQuery()->getResult();
+   }
 }

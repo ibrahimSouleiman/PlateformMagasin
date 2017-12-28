@@ -16,14 +16,12 @@
 	<th>Validé</th>
   <th>Description</th>
 
-	{% for panier in panier. %}
+	{% for commande in Commandes %}
        <tr>
-            <td> {{ panier.description }}   </td>
-            <td> {{ panier.utilisateur.nom }} </td>
-            <td> {{ panier.utilisateur.prenom }} </td>
-            <td> {{ panier.etat }} </td>
-            <td><a href="{{ path('valide_panier', {'id': panier.id}) }}"> Validé </a> </td>
-            <td> <a href="{{ path('details_panier', {'id': panier.id}) }}"> Détails </a> </td>
+            <td> {{ commande.produit.nom }}   </td>
+            <td> {{ commande.produit.reference }} </td>
+            <td> {{ commande.produit.prix }} </td>
+            <td> {{ commande.quantite }} </td>
        </tr>
     {% endfor %}
 
@@ -31,7 +29,7 @@
 
 
 <br/>
- Pour revenir à l'ajout de Produit cliquer <a href="{{ path('add_prod')}}">ici</a>
+ Pour revenir à list des paniers<a href="{{ path('list_panier')}}"> ici </a>
 
 
 {% endblock %}

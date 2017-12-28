@@ -10,4 +10,13 @@ namespace M1\MagAppBundle\Repository;
  */
 class VentesRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	public function findCommandes($panier)
+	{
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->where('c.panier = :panier')->setParameter('panier', $panier);
+
+       return $qb->getQuery()->getResult();
+   }
 }

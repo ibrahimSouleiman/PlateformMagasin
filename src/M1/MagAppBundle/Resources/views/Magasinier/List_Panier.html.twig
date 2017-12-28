@@ -20,7 +20,7 @@
             <td> {{ panier.utilisateur.nom }} </td>
             <td> {{ panier.utilisateur.prenom }} </td>
             <td> {{ panier.etat }} </td>
-            <td><a href="{{ path('valide_panier', {'id': panier.id}) }}"> Validé </a> </td>
+            <td> <a href="{{ path('valide_panier', {'id': panier.id}) }}"> Validé </a> </td>
             <td> <a href="{{ path('details_panier', {'id': panier.id}) }}"> Détails </a> </td>
        </tr>
     {% endfor %}
