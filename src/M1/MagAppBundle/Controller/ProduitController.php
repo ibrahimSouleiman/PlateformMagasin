@@ -117,7 +117,7 @@ class ProduitController extends Controller
                     $commande->setProduit($produit);
                     $commande->setPanier($panier);
                     $commande->setDateHoraireAjout(new \DateTime("now"));
-                    $commande->setDateHoraireValide(new \DateTime("now"));
+                    $commande->setDateHoraireValide(new \DateTime());
                     $commande->setEtat("Initial");
                     $em->persist($commande);
                     $em->flush();
@@ -127,7 +127,7 @@ class ProduitController extends Controller
                          WHERE p.quantite > :quantite'
                     )->setParameter('quantite', 0);
                     $produit = $query->getResult();
-                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                    return $this->redirectToRoute('m1_mag_app_homepage', array(
                         'Produit' => $produit
                     ));
                 }else{

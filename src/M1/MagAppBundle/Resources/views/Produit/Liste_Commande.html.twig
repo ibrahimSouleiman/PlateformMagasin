@@ -11,12 +11,63 @@
     <form action="post">
 
         <select id="choice" name="choix">
-            <option value="30 Dernier jour"></option>
-            <option value="30 Dernier jour"></option>
+            <option value="30 Dernier jour">30 Dernier jour </option>
+            <option value="6 Dernier mois">6 Dernier mois</option>
+            <option value="30 Dernier jour">6 Dernier mois</option>
 
         </select>
+        <button type="submit" name="search" >Recherche</button>
+
 
     </form>
+    {{ dump(PaniersCommandes) }}
+
+    <table cellpadding="30">
+    {% for paniercommande in PaniersCommandes %}
 
 
+        {% for pcommande in paniercommande.PanierCommande   %}
+            {% for commande in pcommande.Commandes   %}
+                {% set color ='' %}
+                {% if commande.etat=='traité'%}
+                    {% set color ='blue' %}
+                    {% elseif commande.etat=='non-traité'%}
+                        {% set color ='yellow' %}
+                    {% elseif commande.etat=='Initial'%}
+                        {% set color ='green' %}
+
+                {% endif %}
+                <tr bgcolor="{{ color }}">
+                    <td>
+                        {{ commande.etat }}
+                        <img src="http://i2.cdscdn.com/pdt2/3/7/1/1/700x700/del5397063620371/rw/dell-disque-dur-externe-2to-usb-3-0.jpg" height="100" >
+                    </td>
+                    <td>
+                        <h3 style="color: #0000F0">{{ commande.produit.nom }}</h3>
+                        <h3>{{ commande.produit.details }}</h3>
+                {% if commande.etat!='non-traité'%}
+
+                    <h5 style="color:red"> EUR {{ commande.produit.prix }}</h5>
+                {% endif %}
+
+
+                    </td>
+                    <td>
+                        <a href="{{ path('m1_mag_app_ajouterpanierpage',{'ref':commande.produit.id}) }}"><button> Ajouter à nouveau</button></a>
+
+                    </td>
+                    <td>
+
+
+                    </td>
+                </tr>
+            {% endfor %}
+
+
+
+
+        {% endfor %}
+
+    {% endfor %}
+    </table>
 {% endblock %}

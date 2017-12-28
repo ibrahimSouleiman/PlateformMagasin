@@ -26,6 +26,75 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class PanierController extends Controller
 {
 
+
+
+    public function ajouterPanierAction($ref)
+    {
+        $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        //recuperation de l'id de l'utisateur
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        // On récupère l'entité correspondante à l'id $id
+        $produit = $repository->findOneById($ref);
+
+
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+        if($panier == null){
+
+            $panier = new Paniers();
+            $panier->setEtat("Actif");
+            $panier->setUtilisateur($user);
+            $panier->setDescription("Mon Premier Panier");
+        }
+
+        $commande=new Commandes();
+        //  $form = $this->createForm(CommandesType::class, $commande);
+
+        // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
+        // ou null si l'id $id  n'existe pas, d'où ce if :
+        if (null === $produit) {
+            throw new NotFoundHttpException("Produit Vide");
+        }
+
+
+            if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+
+                // Sinon on déclenche une exception « Accès interdit »
+                // return $this->redirectToRoute('lieu');
+
+                //  throw new AccessDeniedException('Accès limité aux auteurs.');
+
+
+                $em->persist($panier);
+                $em->flush();
+                $commande->setProduit($produit);
+                $commande->setPanier($panier);
+                $commande->setQuantite(1);
+                $commande->setDateHoraireAjout(new \DateTime("now"));
+                $commande->setDateHoraireValide(new \DateTime());
+                $commande->setEtat("Initial");
+                $em->persist($commande);
+                $em->flush();
+                $query = $em->createQuery(
+                    'SELECT p
+                         FROM M1MagAppBundle:Produit p
+                         WHERE p.quantite > :quantite'
+                )->setParameter('quantite', 0);
+                $produit = $query->getResult();
+                return $this->redirectToRoute('m1_mag_app_homepage', array(
+                    'Produit' => $produit
+                ));
+            }else{
+                return $this->redirectToRoute('login');
+            }
+
+
+
+
+    }
     public function enregistreadresseAction($refadresse)
     {
         $em = $this->getDoctrine()->getManager();
@@ -61,7 +130,13 @@ class PanierController extends Controller
 
             $panier->setEtat("valider");
 
-            $commandes->setDateHoraireValide($today);
+            foreach ( $commandes as $commande){
+                //
+                $commande->setDateHoraireValide(new \DateTime("now"));
+
+            }
+
+
 
             $em->flush();
 

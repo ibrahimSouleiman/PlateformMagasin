@@ -18,31 +18,41 @@ class CommandeController extends Controller
     public function listeAction(Request $request)
     {
         $categorie = new Categories();
+        $repositoryCommande = $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
 
-        $form = $this->createFormBuilder()
-            ->setMethod('POST')
-//                ->setAction($this->generateUrl('setStock/'.$id))
-            ->add('choix',ChoiceType::class, array(
-                'choices' => array(array_combine(range(1,5),range(1,5)))))
-            ->add('save', SubmitType::class,array('label'=> 'Recherche'))
-            ->getForm();
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
+        $query = $em->createQuery(
+                        'SELECT p
+                         FROM M1MagAppBundle:Paniers p
+                         WHERE p.utilisateur = :iduser
+                          and p.etat=:valider or p.etat=:traite'
+        )->setParameter('iduser', $user->getId())
+            ->setParameter('valider', 'valider')
+            ->setParameter('traite', 'traité');
+        $paniers = $query->getResult();
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        $paniersCommandes = array();
+
+        foreach ($paniers as $panier)
+        {
+            $commandes = $repositoryCommande->findByPanier($panier);
+
+            array_push($paniersCommandes,array('PanierCommande'=>array(['Panier'=>$panier,"Commandes"=>$commandes])));
+
+        }
+
+        if ($request->isMethod('POST') ) {
             $em->persist($categorie);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('saved_categorie', array('id' => $categorie->getId()));
+            return $this->redirectToRoute('m1_mag_app_listecommandepage', array('id' => $categorie->getId()));
         }
 
-        return $this->render('M1MagAppBundle:Produit:Liste_Commande.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render('M1MagAppBundle:Produit:Liste_Commande.html.twig',array('PaniersCommandes'=>$paniersCommandes));
     }
 
 
