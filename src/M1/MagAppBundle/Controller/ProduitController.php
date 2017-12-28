@@ -10,13 +10,17 @@ use M1\MagAppBundle\Entity\Paniers;
 /**************forms******************/
 use M1\MagAppBundle\Form\PaniersType;
 use M1\MagAppBundle\Form\ProduitType;
+use M1\MagAppBundle\Form\CommandesTypeType;
+
 /********************************/
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 /********************************/
 
 class ProduitController extends Controller
@@ -31,7 +35,14 @@ class ProduitController extends Controller
     $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
 
     // On récupère l'entité correspondante à l'id $id
-    $produit = $repository->findAll();
+    $em = $this->getDoctrine()->getManager();
+    $query = $em->createQuery(
+        'SELECT p
+    FROM M1MagAppBundle:Produit p
+    WHERE p.quantite > :quantite'
+    )->setParameter('quantite', 0);
+    $produit = $query->getResult();
+    //$produit = $repository->findBy(array('quantite'=>">0"));
 
     // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
     // ou null si l'id $id  n'existe pas, d'où ce if :
@@ -73,7 +84,16 @@ class ProduitController extends Controller
             $panier->setDescription("Mon Premier Panier");
         }
 
-        $form = $this->createForm(PaniersType::class, $panier);
+        $commande=new Commandes();
+      //  $form = $this->createForm(CommandesType::class, $commande);
+
+        $form = $this->createFormBuilder($commande)
+            ->setMethod('POST')
+//                ->setAction($this->generateUrl('setStock/'.$id))
+            ->add('quantite',ChoiceType::class, array(
+                   'choices' => array(array_combine(range(1,$produit->getQuantite()),range(1,$produit->getQuantite())))))
+            ->add('save', SubmitType::class,array('label'=> 'Ajouter '))
+            ->getForm();
         $form->handleRequest($request);
 
         // $advert est donc une instance de OC\PlatformBundle\Entity\Advert
@@ -94,14 +114,17 @@ class ProduitController extends Controller
 
                     $em->persist($panier);
                     $em->flush();
-                    $commande = new Commandes();
                     $commande->setProduit($produit);
                     $commande->setPanier($panier);
-                    $commande->setQuantite(5);
 
                     $em->persist($commande);
                     $em->flush();
-
+                    $query = $em->createQuery(
+                        'SELECT p
+                         FROM M1MagAppBundle:Produit p
+                         WHERE p.quantite > :quantite'
+                    )->setParameter('quantite', 0);
+                    $produit = $query->getResult();
                     return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
                         'Produit' => $produit
                     ));
@@ -114,6 +137,20 @@ class ProduitController extends Controller
             'Produit' => $produit, 'form'=> $form->createView()
         ));
 
+    }
+
+    /**
+     * @param $nb
+     */
+    public  function getAllChoice($nb)
+    {
+        $array=[];
+
+     /*   for ($i in $nb){
+
+            $array
+        }
+*/
     }
 
     public function voirmonpanierAction()

@@ -1,0 +1,22 @@
+
+{% extends "M1MagAppBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+
+
+<h1>Liste de Commandes</h1>
+
+    <form action="post">
+
+        <select id="choice" name="choix">
+            <option value="30 Dernier jour"></option>
+            <option value="30 Dernier jour"></option>
+
+        </select>
+
+    </form>
+
+
+{% endblock %}

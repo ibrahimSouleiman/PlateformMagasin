@@ -26,6 +26,10 @@ m1_mag_app_validerpanierpage:
     path:     /Panier/valider
     defaults: { _controller: M1MagAppBundle:Panier:valide }
 
+m1_mag_app_listecommandepage:
+    path:     /ListeCommandes
+    defaults: { _controller: M1MagAppBundle:Commande:liste }
+
 add_prod:
     path: /Magasinier/Ajout_Produit
     defaults: {_controller: M1MagAppBundle:Produit:add}  

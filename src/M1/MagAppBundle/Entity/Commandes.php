@@ -21,7 +21,22 @@ class Commandes
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateHoraireValide", type="datetimetz")
+     */
+    private $dateHoraireValide;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateHoraireAjout", type="datetimetz")
+     */
+    private $dateHoraireAjout;
+
     /**
     *
     * @ORM\ManyToOne(targetEntity="Produit")
@@ -51,6 +66,66 @@ class Commandes
     {
         return $this->id;
     }
+
+
+
+    /**
+     * Set dateHoraireValide
+     *
+     * @param \DateTime $dateHoraire
+     *
+     * @return Ventes
+     */
+    public function setDateHorairValide($dateHoraireValide)
+    {
+        $this->dateHoraireValide = $dateHoraireValide;
+
+        return $this;
+    }
+
+    /**
+     * Get dateHoraire
+     *
+     * @return \DateTime
+     */
+    public function getDateHoraireValide()
+    {
+        return $this->dateHoraireValide;
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Set dateHoraire
+     *
+     * @param \DateTime $dateHoraire
+     *
+     * @return Commande
+     */
+    public function setDateHoraireAjout($dateHoraireAjout)
+    {
+        $this->$dateHoraireAjout = $dateHoraireAjout;
+
+        return $this;
+    }
+
+    /**
+     * Get dateHoraire
+     *
+     * @return \DateTime
+     */
+    public function getDateHoraireAjout()
+    {
+        return $this->dateHoraireAjout;
+    }
+
 
      /**
      * Set Produit
