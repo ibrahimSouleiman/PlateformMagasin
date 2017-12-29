@@ -192,7 +192,7 @@ class PanierController extends Controller
 		 $Quantite = $produit->getQuantite();
 		  
 		  // verifier le stock
-		 if ( $Quantite > $commande->getQuantite()) {
+		 if ( $Quantite >= $commande->getQuantite()) {
 		 	$vente = new Ventes(); 
 
 		    $vente->setPanier($panier);
@@ -202,19 +202,29 @@ class PanierController extends Controller
 
 		    $emv = $this->getDoctrine()->getManager();
 		    $emv->persist($vente);
-            $emv->flush();
+        $emv->flush();
 
-            // reduire le stock
-            $produit = $emv->getRepository(Produit::class)->find($vente->getProduit()->getId());
-            $Qte = $Quantite - ($commande->getQuantite());
-            $produit->setQuantite($Qte);
+        // reduire le stock
+        $produit = $emv->getRepository(Produit::class)->find($vente->getProduit()->getId());
+        $Qte = $Quantite - ($commande->getQuantite());
+        $produit->setQuantite($Qte);
+        $emv->persist($produit);
+        $emv->flush();
 
-            $emv->persist($produit);
-            $emv->flush();
+        $commande->setEtat('traité');
+        $emv->persist($commande);
+        $emv->flush();
+
 		 }
+     else
+     {
+        $commande->setEtat('non traité');
+        $emv->persist($commande);
+        $emv->flush();
+     }
 		}
 
-
+    // normalement traité
 		$panier->setEtat("valide");
 
 		 $em->persist($panier);
