@@ -27,6 +27,36 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class PanierController extends Controller
 {
 
+    public function voirmonpanierAction(Request $request)
+    {
+        $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $commandes = $repositoryCommande->findByPanier($panier);
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($request->isMethod('POST')){
+
+            foreach ($commandes as $commande){
+
+                $choix=$_POST[$commande->getId()];
+                $commande->setQuantite($choix);
+
+                $em->flush();
+                return $this->redirectToRoute('m1_mag_app_choixadressepage');
+
+
+            }
+
+        }
+
+        return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('commandes'=> $commandes,'user'=>$user->getId(),'Panier' =>$panier));
+
+    }
 
 
     public function ajouterPanierAction($ref)
@@ -124,6 +154,7 @@ class PanierController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
         $commandes = $repositoryCommande->findByPanier($panier);
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->isMethod('POST') ) {
             $em = $this->getDoctrine()->getManager();
@@ -131,12 +162,36 @@ class PanierController extends Controller
 
             $panier->setEtat("valider");
 
-            foreach ( $commandes as $commande){
-                //
+
+            foreach ($commandes as $commande){
                 $commande->setDateHoraireValide(new \DateTime("now"));
 
-            }
 
+                $produit = $em->getRepository(Produit::class)->find($commande->getProduit());
+                $Quantite = $produit->getQuantite();
+
+                // verifier le stock
+                if ( $Quantite >= $commande->getQuantite()) {
+
+
+                    // reduire le stock
+
+                    $Qte = $Quantite - ($commande->getQuantite());
+                    $produit->setQuantite($Qte);
+                    $em->persist($produit);
+                    $em->flush();
+
+                    $commande->setEtat('traité');
+                    $em->persist($commande);
+                    $em->flush();
+
+                }
+                else
+                {
+                    $commande->setEtat('non traité');
+                    $em->flush();
+                }
+            }
 
 
             $em->flush();

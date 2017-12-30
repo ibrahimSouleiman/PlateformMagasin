@@ -13,7 +13,7 @@
         <select id="choice" name="choix">
             <option value="30 Dernier jour">30 Dernier jour </option>
             <option value="6 Dernier mois">6 Dernier mois</option>
-            <option value="30 Dernier jour">6 Dernier mois</option>
+            <option value="2017">2017</option>
 
         </select>
         <button type="submit" name="search" >Recherche</button>
@@ -30,7 +30,7 @@
             {% for commande in pcommande.Commandes   %}
                 {% set color ='' %}
                 {% if commande.etat=='traité'%}
-                    {% set color ='blue' %}
+                    {% set color ='#2E9AFE' %}
                     {% elseif commande.etat=='non-traité'%}
                         {% set color ='yellow' %}
                     {% elseif commande.etat=='Initial'%}
@@ -46,15 +46,18 @@
                         <h3 style="color: #0000F0">{{ commande.produit.nom }}</h3>
                         <h3>{{ commande.produit.details }}</h3>
                 {% if commande.etat!='non-traité'%}
+                    <h5 > Quantite :{{ commande.quantite}}</h5>
 
-                    <h5 style="color:red"> EUR {{ commande.produit.prix }}</h5>
+                    <h5 style="color:red"> EUR {{ commande.produit.prix * commande.quantite}}</h5>
                 {% endif %}
 
 
                     </td>
                     <td>
+                        {%  if ( commande.produit.quantite > 1) %}
                         <a href="{{ path('m1_mag_app_ajouterpanierpage',{'ref':commande.produit.id}) }}"><button> Ajouter à nouveau</button></a>
 
+                        {% endif %}
                     </td>
                     <td>
 

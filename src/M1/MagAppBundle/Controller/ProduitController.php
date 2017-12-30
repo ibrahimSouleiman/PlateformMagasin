@@ -155,20 +155,7 @@ class ProduitController extends Controller
 */
     }
 
-    public function voirmonpanierAction()
-    {
-         $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
-         $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
-
-        $commandes = $repositoryCommande->findByPanier($panier);
-
-
-      return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('commandes'=> $commandes,'user'=>$user->getId()));
-
-    }
 
     /**************************************************************************************************************/
 

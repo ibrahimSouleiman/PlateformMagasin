@@ -8,7 +8,7 @@ m1_mag_app_detailpage:
 
 m1_mag_app_voirPanierpage:
     path:     /MonPanier
-    defaults: { _controller: M1MagAppBundle:Produit:voirmonpanier }
+    defaults: { _controller: M1MagAppBundle:Panier:voirmonpanier }
 
 m1_mag_app_choixadressepage:
     path:     /choixadresse
