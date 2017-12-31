@@ -58,6 +58,70 @@ class PanierController extends Controller
 
     }
 
+    public function supprimerPanierAction($id)
+    {
+        $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $commandes = $repositoryCommande->findByPanier($panier);
+        $em = $this->getDoctrine()->getManager();
+
+        $commande=$repositoryCommande->findOneById($id);
+
+        if($commande!=null) {
+            $em->remove($commande);
+            $em->flush();
+        }
+        return $this->redirectToRoute("m1_mag_app_voirPanierpage", array('commandes'=> $commandes,'Panier' =>$panier));
+
+    }
+
+    public function  sendmailAction()
+    {
+
+      $message = \Swift_Message::newInstance()
+          ->setSubject("TEST OBJECT")
+          ->setFrom("ibroleonardo@gmail.com")
+          ->setTo('ibroleonardo@gmail.com')
+          ->setCharset('utf-8')
+          ->setContentType('text/html')
+          ->setBody("fsdfsdfdsfs");
+
+      $this->get('mailer')->send($message);
+
+/*
+        $mailer = $container->get('mailer');
+        $spool = $mailer->getTransport()->getSpool();
+        $transport = $container->get('swiftmailer.transport.real');
+
+        $sender     = 'ibroleonardo@gmail.com';
+        $recipient  = 'ibroleonardo@gmail.com';
+        $title      = 'your_title';
+        $body       = 'your_message';
+        $charset    = "UTF-8";
+
+        $email = $mailer->createMessage()
+            ->setSubject($title)
+            ->setFrom("$sender")
+            ->setTo("$recipient")
+            ->setCharset($charset)
+            ->setContentType('text/html')
+            ->setBody($body)
+        ;
+
+        $send = $mailer->send($email);
+        $spool->flushQueue($transport);
+*/
+        return $this->redirectToRoute('m1_mag_app_homepage');
+
+
+    }
+
+
+
 
     public function ajouterPanierAction($ref)
     {

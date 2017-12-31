@@ -45,8 +45,9 @@ Liste de Produits
                 <td>
                     <h3 style="color: #0000F0">{{ commande.produit.nom }}</h3>
                     <h3>{{ commande.produit.details }}</h3>
-                     <a href="">Supprimer</a>
+                    <a href="{{ path('m1_mag_app_supprimercommandepage',{'id':commande.id}) }}">Supprimer</a>
                     <a href="">Modifier</a>
+
                     <a href="">Mèttre de Côte</a>
 
                 </td>
