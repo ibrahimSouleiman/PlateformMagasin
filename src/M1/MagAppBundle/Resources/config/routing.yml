@@ -76,3 +76,5 @@ details_panier:
     path: /Magasinier/listCommande/{id}
     defaults: {_controller: M1MagAppBundle:Commande:listCommande}  
 
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
