@@ -75,8 +75,6 @@ swiftmailer:
     password: '%mailer_password%'
     spool: { type: memory }
 
-
-<<<<<<< HEAD
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
