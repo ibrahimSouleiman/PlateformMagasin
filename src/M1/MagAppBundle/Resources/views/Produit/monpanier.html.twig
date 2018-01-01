@@ -23,6 +23,7 @@ Liste de Produits
 
 
 
+        <form method="post">
 
         <table cellpadding="50">
             <th>
@@ -44,7 +45,9 @@ Liste de Produits
                 <td>
                     <h3 style="color: #0000F0">{{ commande.produit.nom }}</h3>
                     <h3>{{ commande.produit.details }}</h3>
-                     <a href="">Supprimer</a>
+                    <a href="{{ path('m1_mag_app_supprimercommandepage',{'id':commande.id}) }}">Supprimer</a>
+                    <a href="">Modifier</a>
+
                     <a href="">Mèttre de Côte</a>
 
                 </td>
@@ -53,8 +56,22 @@ Liste de Produits
                  <h3 style="color:red"> EUR {{ commande.produit.prix }}</h3>
                 </td>
                 <td>
+                    <select name="{{ commande.id }}">
+                        {% set itemselected = 0 %}
+                        {% for i in 1..commande.produit.quantite %}
+                            {% if i==commande.quantite %}
+                                {% set itemselected = i %}
+
+                                <option selected="selected">{{ i }}</option>
+                             {% else %}
+                                 <option value="{{ i }}">{{ i }}</option>
+
+                            {% endif %}
+                        {% endfor %}
 
 
+
+                    </select>
                 </td>
             </tr>
 
@@ -66,10 +83,13 @@ Liste de Produits
             <div style="margin-left: 1100;margin-top: -400;height: 130;width: 230;background-color:#868686">
                <h4> Sous-Total:{{ nombreProduit }}</h4>
                 <h3 style="color:red">EUR {{ prixTotal }}</h3>
-                <a href="{{ path('m1_mag_app_choixadressepage') }}"><button id="commande" >Passez a la Commande</button></a>
+                <a href="{{ path('m1_mag_app_choixadressepage') }}">Lien</a>
+                    <button id="commande" type="submit" >Passez a la Commande</button>
             </div>
 
         {% endif %}
+        </form>
+
     </tr>
 
 </table>

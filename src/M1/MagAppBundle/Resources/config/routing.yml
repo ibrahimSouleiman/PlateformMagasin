@@ -8,7 +8,7 @@ m1_mag_app_detailpage:
 
 m1_mag_app_voirPanierpage:
     path:     /MonPanier
-    defaults: { _controller: M1MagAppBundle:Produit:voirmonpanier }
+    defaults: { _controller: M1MagAppBundle:Panier:voirmonpanier }
 
 m1_mag_app_choixadressepage:
     path:     /choixadresse
@@ -33,6 +33,15 @@ m1_mag_app_listecommandepage:
 m1_mag_app_ajouterpanierpage:
     path:     /AjouterPanier/{ref}
     defaults: { _controller: M1MagAppBundle:Panier:ajouterPanier}
+
+m1_mag_app_supprimercommandepage:
+    path:     /SupprimerPanier/{id}
+    defaults: { _controller: M1MagAppBundle:Panier:supprimerPanier}
+
+m1_mag_app_sendmailpage:
+    path:     /Mail
+    defaults: { _controller: M1MagAppBundle:Panier:sendmail}
+
 
 add_prod:
     path: /Magasinier/Ajout_Produit

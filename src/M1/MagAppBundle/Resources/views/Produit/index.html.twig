@@ -1,6 +1,7 @@
 {# src/M1/MagAppBundle/Resources/views/Produit/index.html.twig #}
+{% extends 'M1MagAppBundle::Produit/base.html.twig' %}
 
-<html><body>
+{% block body %}
 Liste de Produits
 
 {% if is_granted ('IS_AUTHENTICATED_FULLY') %}
@@ -14,6 +15,39 @@ Liste de Produits
 <a href="/MonPanier" style="color: #0000F0">Voir Mon Panier</a>
 <a href="{{ path('m1_mag_app_listecommandepage')}}" style="color: #AA3333">Voir Mes Commandes</a>
 
+<br></br>
+<br></br>
+
+
+
+
+{{ form_start(form) }}
+{{ form_errors(form) }}
+
+
+    <table>
+        <tr>
+            <td>
+                <select name="categorie">
+                    <option value="Tous">Tous nos catégorie </option>
+
+                    {% for categorie in Categories %}
+                        <option value="{{ categorie.id }}">{{ categorie.LibelleCategorie }}</option>
+                    {% endfor %}
+
+                </select>
+            </td>
+            <td>
+                {{ form_label(form.nom, "") }}
+                {{ form_widget(form.nom, {'attr': {'class': 'input'}}) }}            </td>
+            <td>
+                {{ form_label(form.submit, "Recherche") }}
+                {{ form_widget(form.submit, {'attr': {'class': 'input'}}) }}
+            </td>
+        </tr>
+    </table>
+
+    {{ form_end(form) }}
 
 <table  cellspacing="50" >
     <tr>
@@ -35,4 +69,4 @@ Liste de Produits
     </tr>
 
 </table>
-</body></html>
+{% endblock %}

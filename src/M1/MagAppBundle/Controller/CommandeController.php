@@ -28,7 +28,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use M1\MagAppBundle\Repository\CommandesRepository;
 
-
+use Doctrine\ORM\Query\ResultSetMapping;
 
 
 class CommandeController extends Controller
@@ -40,6 +40,7 @@ class CommandeController extends Controller
         $repositoryCommande = $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
 
         $em = $this->getDoctrine()->getManager();
+
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
@@ -55,6 +56,20 @@ class CommandeController extends Controller
 
         $paniersCommandes = array();
 
+        $rsm = new ResultSetMapping();
+
+        $querys = $em->createNativeQuery("SELECT * FROM commandes",$rsm);
+
+        $annes = $querys->getResult();
+
+        $produit=array();
+
+        if($annes!=null)
+        {
+            return $this->redirectToRoute('m1_mag_app_homepage', array(
+                'Produit' => $produit
+            ));
+        }
         foreach ($paniers as $panier)
         {
             $commandes = $repositoryCommande->findByPanier($panier);
@@ -64,14 +79,27 @@ class CommandeController extends Controller
         }
 
         if ($request->isMethod('POST') ) {
-            $em->persist($categorie);
-            $em->flush();
+
+            foreach ($paniers as $panier)
+            {
+                $choix=$_POST['choix'];
+
+                if($choix=='30 Dernier jour')
+                {
+
+                }
 
 
-            return $this->redirectToRoute('m1_mag_app_listecommandepage', array('id' => $categorie->getId()));
+                $commandes = $repositoryCommande->findByPanier($panier);
+
+                array_push($paniersCommandes,array('PanierCommande'=>array(['Panier'=>$panier,"Commandes"=>$commandes])));
+
+            }
+
+            return $this->redirectToRoute('m1_mag_app_listecommandepage',array('PaniersCommandes'=>$paniersCommandes));
         }
 
-        return $this->render('M1MagAppBundle:Produit:Liste_Commande.html.twig',array('PaniersCommandes'=>$paniersCommandes));
+        return $this->render('M1MagAppBundle:Produit:Liste_Commande.html.twig',array('PaniersCommandes'=>$paniersCommandes,'Annes'=>$annes));
     }
 
 

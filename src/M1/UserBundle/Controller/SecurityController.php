@@ -70,7 +70,6 @@ class SecurityController extends Controller
       $form->handleRequest($request);
       $user->setSalt('');
         $user->setRoles(array('ROLE_USER'));
-        $user->setAdresse('');
 
       if($form->isValid()&& $form->isSubmitted())
       {

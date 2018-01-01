@@ -27,6 +27,100 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class PanierController extends Controller
 {
 
+    public function voirmonpanierAction(Request $request)
+    {
+        $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $commandes = $repositoryCommande->findByPanier($panier);
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($request->isMethod('POST')){
+
+            foreach ($commandes as $commande){
+
+                $choix=$_POST[$commande->getId()];
+                $commande->setQuantite($choix);
+
+                $em->flush();
+                return $this->redirectToRoute('m1_mag_app_choixadressepage');
+
+
+            }
+
+        }
+
+        return $this->render("M1MagAppBundle:Produit:monpanier.html.twig", array('commandes'=> $commandes,'user'=>$user->getId(),'Panier' =>$panier));
+
+    }
+
+    public function supprimerPanierAction($id)
+    {
+        $repositoryCommande= $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
+        $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
+
+        $commandes = $repositoryCommande->findByPanier($panier);
+        $em = $this->getDoctrine()->getManager();
+
+        $commande=$repositoryCommande->findOneById($id);
+
+        if($commande!=null) {
+            $em->remove($commande);
+            $em->flush();
+        }
+        return $this->redirectToRoute("m1_mag_app_voirPanierpage", array('commandes'=> $commandes,'Panier' =>$panier));
+
+    }
+
+    public function  sendmailAction()
+    {
+
+      $message = \Swift_Message::newInstance()
+          ->setSubject("TEST OBJECT")
+          ->setFrom("ibroleonardo@gmail.com")
+          ->setTo('ibroleonardo@gmail.com')
+          ->setCharset('utf-8')
+          ->setContentType('text/html')
+          ->setBody("fsdfsdfdsfs");
+
+      $this->get('mailer')->send($message);
+
+/*
+        $mailer = $container->get('mailer');
+        $spool = $mailer->getTransport()->getSpool();
+        $transport = $container->get('swiftmailer.transport.real');
+
+        $sender     = 'ibroleonardo@gmail.com';
+        $recipient  = 'ibroleonardo@gmail.com';
+        $title      = 'your_title';
+        $body       = 'your_message';
+        $charset    = "UTF-8";
+
+        $email = $mailer->createMessage()
+            ->setSubject($title)
+            ->setFrom("$sender")
+            ->setTo("$recipient")
+            ->setCharset($charset)
+            ->setContentType('text/html')
+            ->setBody($body)
+        ;
+
+        $send = $mailer->send($email);
+        $spool->flushQueue($transport);
+*/
+        return $this->redirectToRoute('m1_mag_app_homepage');
+
+
+    }
+
+
 
 
     public function ajouterPanierAction($ref)
@@ -124,6 +218,7 @@ class PanierController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $panier= $repositoryPanier->findOneBy(array('utilisateur'=>$user,'etat' =>'Actif'));
         $commandes = $repositoryCommande->findByPanier($panier);
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->isMethod('POST') ) {
             $em = $this->getDoctrine()->getManager();
@@ -131,12 +226,36 @@ class PanierController extends Controller
 
             $panier->setEtat("valider");
 
-            foreach ( $commandes as $commande){
-                //
+
+            foreach ($commandes as $commande){
                 $commande->setDateHoraireValide(new \DateTime("now"));
 
-            }
 
+                $produit = $em->getRepository(Produit::class)->find($commande->getProduit());
+                $Quantite = $produit->getQuantite();
+
+                // verifier le stock
+                if ( $Quantite >= $commande->getQuantite()) {
+
+
+                    // reduire le stock
+
+                    $Qte = $Quantite - ($commande->getQuantite());
+                    $produit->setQuantite($Qte);
+                    $em->persist($produit);
+                    $em->flush();
+
+                    $commande->setEtat('traité');
+                    $em->persist($commande);
+                    $em->flush();
+
+                }
+                else
+                {
+                    $commande->setEtat('non traité');
+                    $em->flush();
+                }
+            }
 
 
             $em->flush();
