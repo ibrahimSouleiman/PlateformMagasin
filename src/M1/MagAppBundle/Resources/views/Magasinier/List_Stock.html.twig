@@ -1,4 +1,4 @@
-{% extends "M1MagAppBundle::layout.html.twig" %}
+{% extends "M1MagAppBundle::layout_Magasinier.html.twig" %}
 
 {% block title %}{{ parent() }} - Index{% endblock %}
 
@@ -26,13 +26,13 @@
 
 	{% for produit in produits %}
        <tr>
-            <td> {{ produit.nom }}   </td>
-            <td> {{ produit.prix }} </td>
-            <td> {{ produit.quantite }} </td>
-            <td> {{ produit.categorie.libelleCategorie }} </td>
 
        <td> <!--img src="{{ asset('uploads/img/ae.jpg') }}" alt="{{produit.image.alt }}" /-->
-         <img src="{{ asset(produit.image.url) }}" alt="{{ produit.image.alt }}" />
+         <img src="{{ asset(produit.image.url) | imagine_filter('xs_thumb') }}" alt="{{ produit.image.alt }}" />
+          {{ produit.nom }}
+         {{ produit.prix }}
+         {{ produit.quantite }}
+         {{ produit.categorie.libelleCategorie }}
        </td>
        </tr>
     {% endfor %}
@@ -46,48 +46,5 @@
 {% endif %}
 
  </div>
-
-  <script>
-
-
-// Récupération des variables définies dans le service js_vars
-var JsVars = jQuery('#js-vars').data('vars');
-
-// Récuperer une variable
-var chartData = JsVars.chartData;
-
-console.log(chartData);
-/*
-
-Sortie :
-
-[['hour', 'temperature'], [8, 8.5], ...]
-
-*/
-
-
-         var mainApp = angular.module("mainApp", []);
-         var awesome = angular.module('awesome', []);
-
-awesome.config(function($interpolateProvider) {
-    $interpolateProvider.startSymbol('||');
-    $interpolateProvider.endSymbol('||');
-});
-         mainApp.controller('produitController', function($scope) {
-            $scope.student = {
-               firstName: "Mahesh",
-               lastName: "Parashar",
-               fees:500,
-               
-               subjects:[
-                  {name:'Physics',marks:70},
-                  {name:'Chemistry',marks:80},
-                  {name:'Math',marks:65}
-               ],
-               
-     
-            };
-         });
-      </script>
 
 {% endblock %}
