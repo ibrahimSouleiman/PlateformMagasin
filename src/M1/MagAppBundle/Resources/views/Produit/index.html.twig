@@ -2,7 +2,61 @@
 {% extends 'M1MagAppBundle::Produit/base.html.twig' %}
 
 {% block body %}
-Liste de Produits
+
+    <div id="content">
+    <div class="container">
+    <div class="col-md-9" id="wishlist">
+
+
+
+    <div class="box">
+        <h1>My wishlist</h1>
+        <p class="lead">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+    </div>
+    <div class="row products">
+    {% for p in Produit %}
+
+        <div class="col-md-3 col-sm-4">
+            <div class="product">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="front">
+                            <a href="detail.html">
+                                <img src="img/product1.jpg" alt="" class="img-responsive">
+                            </a>
+                        </div>
+                        <div class="back">
+                            <a href="{{ path('m1_mag_app_detailpage', { 'ref':p.id})  }}" >
+                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="detail.html" class="invisible">
+                    <img src="img/product1.jpg" alt="" class="img-responsive">
+                </a>
+                <div class="text">
+                    <h3><a href="{{ path('m1_mag_app_detailpage', { 'ref':p.id})  }}"> {{ p.nom }}</a></h3>
+                    <p class="price">€ {{ p.prix }}</p>
+                    <p class="buttons">
+                        <a href="{{ path('m1_mag_app_detailpage', { 'ref':p.id})  }}" class="btn btn-default">Voir detail</a>
+                        <a href="{{ path('m1_mag_app_ajouterpanierpage',{'ref':p.id}) }}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Ajouter au Panier</a>
+                    </p>
+                </div>
+                <!-- /.text -->
+            </div>
+            <!-- /.product -->
+        </div>
+
+    {% endfor %}
+    </div>
+    <!-- /.products -->
+    </div>
+    </div>
+    </div>
+
+    Liste de Produits
+
 
 {% if is_granted ('IS_AUTHENTICATED_FULLY') %}
 <a href="/logout">Deconnecter</a>
@@ -15,58 +69,4 @@ Liste de Produits
 <a href="/MonPanier" style="color: #0000F0">Voir Mon Panier</a>
 <a href="{{ path('m1_mag_app_listecommandepage')}}" style="color: #AA3333">Voir Mes Commandes</a>
 
-<br></br>
-<br></br>
-
-
-
-
-{{ form_start(form) }}
-{{ form_errors(form) }}
-
-
-    <table>
-        <tr>
-            <td>
-                <select name="categorie">
-                    <option value="Tous">Tous nos catégorie </option>
-
-                    {% for categorie in Categories %}
-                        <option value="{{ categorie.id }}">{{ categorie.LibelleCategorie }}</option>
-                    {% endfor %}
-
-                </select>
-            </td>
-            <td>
-                {{ form_label(form.nom, "") }}
-                {{ form_widget(form.nom, {'attr': {'class': 'input'}}) }}            </td>
-            <td>
-                {{ form_label(form.submit, "Recherche") }}
-                {{ form_widget(form.submit, {'attr': {'class': 'input'}}) }}
-            </td>
-        </tr>
-    </table>
-
-    {{ form_end(form) }}
-
-<table  cellspacing="50" >
-    <tr>
-
-    {% for p in Produit %}
-<td width="10" height="20">
-    {{ p.nom }}
-
-    <a href="{{ path('m1_mag_app_detailpage', { 'ref':p.id})  }}">
-    <img src="http://i2.cdscdn.com/pdt2/3/7/1/1/700x700/del5397063620371/rw/dell-disque-dur-externe-2to-usb-3-0.jpg" height="300" >
-    </a>
-
-    {{ p.prix }} euros
-    <a href="{{ path('m1_mag_app_ajouterpanierpage',{'ref':p.id}) }}"><button> Ajouter au panier</button></a>
-
-</td>
-
-{% endfor %}
-    </tr>
-
-</table>
 {% endblock %}
