@@ -1,6 +1,7 @@
-{# src/M1/MagAppBundle/Resources/views/Produit/index.html.twig #}
+{# src/M1/MagAppBundle/Resources/views/Produit/monpanier.html.twig #}
+{% extends 'M1MagAppBundle::Produit/base.html.twig' %}
 
-<html><body>
+{% block body %}
 Liste de Produits
 
 {% if is_granted ('IS_AUTHENTICATED_FULLY') %}
@@ -93,4 +94,4 @@ Liste de Produits
     </tr>
 
 </table>
-</body></html>
+{% endblock %}

@@ -1,32 +1,119 @@
 {# src/M1/MagAppBundle/Resources/views/Produit/detail.html.twig #}
+{% extends 'M1MagAppBundle::Produit/base.html.twig' %}
 
-<html>
-<body>
+{% block body %}
+    <div id="content">
+        <div class="container">
+            <div class="col-md-3">
+                <div class="panel panel-default sidebar-menu">
 
-Details
-<table cellpadding="100">
-    <tr>
-<td >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Categories</h3>
+                    </div>
 
-    <img src="http://i2.cdscdn.com/pdt2/3/7/1/1/700x700/del5397063620371/rw/dell-disque-dur-externe-2to-usb-3-0.jpg" height="300" >
-</td>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked category-menu">
+                            <li>
+                                <a href="category.html">{{ Produit.categorie.LibelleCategorie }} <span class="badge pull-right">42</span></a>
+                                <ul>
+                                    <!--
+                                    <li><a href="category.html">T-shirts</a>
+                                    </li>
+                                    <li><a href="category.html">Shirts</a>
+                                    </li>
+                                    <li><a href="category.html">Pants</a>
+                                    </li>
+                                    <li><a href="category.html">Accessories</a>
+                                    </li>
+   -->
+                                </ul>
+                            </li>
 
 
-<td >
-    <h3>{{ Produit.nom }}</h3>
-    <h5>{{ Produit.prix }}</h5>
-    <h4>{{ Produit.details }}</h4>
+                        </ul>
+
+                    </div>
+                </div>
 
 
-</td>
+            </div>
+            <div class="col-md-9">
 
 
-<td style="margin-right:900px">
-    {{ form_start(form) }}
 
-    {{ form_end(form) }}
+                <div class="row" id="productMain">
+                    <div class="col-sm-6">
+                        <div id="mainImage">
+                            <img src="{{ asset(Produit.image.url)}}" alt="" class="img-responsive">
+                        </div>
 
-</td>
-    </tr>
-</table>
-</body></html>
+
+                        <!-- /.ribbon -->
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="box">
+                            {{ form_start(form) }}
+                            {{ form_errors(form) }}
+
+                            <h1 class="text-center">{{ Produit.nom }}</h1>
+                            <p class="goToDescription">Quantité:{{ form_widget(form.quantite, {'attr': {'class': 'form-control','style':'heigth:10px'}}) }}
+
+                            </p>
+                            <p class="price">€ {{ Produit.prix }} </p>
+
+                            <p class="text-center buttons">
+                                <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                                </a>
+                                <a href="basket.html" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
+                            </p>
+
+                            {{ form_end(form) }}
+
+                        </div>
+
+                        <div class="row" id="thumbs">
+                            <!-- Debut de Repetition pour plusieur Image-->
+                            <div class="col-xs-4">
+                                    <img src="{{ asset(Produit.image.url)}}" alt="" class="img-responsive">
+                            </div>
+                            <!-- Fin de Repetition pour plusieur Image-->
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="box" id="details">
+                    <p>
+                    <h4>Details du Produit</h4>
+                    <p>{{ Produit.details }}</p>
+                 <!--
+                    <h4>Material & care</h4>
+                    <ul>
+                        <li>Polyester</li>
+                        <li>Machine wash</li>
+                    </ul>
+                    <h4>Size & Fit</h4>
+                    <ul>
+                        <li>Regular fit</li>
+                        <li>The model (height 5'8" and chest 33") is wearing a size S</li>
+                    </ul>
+
+                    <blockquote>
+                        <p><em>Define style this season with Armani's new range of trendy tops, crafted with intricate details. Create a chic statement look by teaming this lace number with skinny jeans and pumps.</em>
+                        </p>
+                    </blockquote>
+
+                    <hr>
+                   -->
+                </div>
+
+    </div>
+    <!-- /.col-md-9 -->
+    </div>
+    <!-- /.container -->
+    </div>
+
+{% endblock %}

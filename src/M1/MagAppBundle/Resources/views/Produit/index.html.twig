@@ -22,12 +22,12 @@
                     <div class="flipper">
                         <div class="front">
                             <a href="detail.html">
-                                <img src="img/product1.jpg" alt="" class="img-responsive">
+                                <img src="{{ asset(p.image.url) }}" alt="" class="img-responsive">
                             </a>
                         </div>
                         <div class="back">
                             <a href="{{ path('m1_mag_app_detailpage', { 'ref':p.id})  }}" >
-                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
+                                <img src="{{ asset(p.image.url) }}" alt="" class="img-responsive">
                             </a>
                         </div>
                     </div>
@@ -44,9 +44,9 @@
                     </p>
                 </div>
                 <!-- /.text -->
-            </div>
-            <!-- /.product -->
-        </div>
+    </div>
+    <!-- /.product -->
+    </div>
 
     {% endfor %}
     </div>
@@ -55,18 +55,6 @@
     </div>
     </div>
 
-    Liste de Produits
 
-
-{% if is_granted ('IS_AUTHENTICATED_FULLY') %}
-<a href="/logout">Deconnecter</a>
-
-{% else  %}
-    <a href="/login">Connecter</a>
-
-{% endif %}
-
-<a href="/MonPanier" style="color: #0000F0">Voir Mon Panier</a>
-<a href="{{ path('m1_mag_app_listecommandepage')}}" style="color: #AA3333">Voir Mes Commandes</a>
 
 {% endblock %}
