@@ -10,7 +10,8 @@ use M1\MagAppBundle\Entity\Paniers;
 /**************forms******************/
 use M1\MagAppBundle\Form\PaniersType;
 use M1\MagAppBundle\Form\ProduitType;
-use M1\MagAppBundle\Form\CommandesTypeType;
+use M1\MagAppBundle\Form\CommandesType;
+use M1\MagAppBundle\Form\ProduitSearchType;
 
 /********************************/
 
@@ -180,6 +181,8 @@ class ProduitController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
              $em = $this->getDoctrine()->getManager();
+             $produit->getImage()->upload();
+
              $em->persist($produit);
              $em->flush();
 
@@ -193,12 +196,34 @@ class ProduitController extends Controller
     ));
     }
 
-     public function listStockAction()
+     public function listStockAction(Request $request)
     {
            $em = $this->getDoctrine()->getManager();
 		   $produits = $em->getRepository(Produit::class)->findAll();
 
-		return $this->render("M1MagAppBundle:Magasinier:List_Stock.html.twig", ['produits'=> $produits]);
+    $defaultData = array('message' => 'Type your message here');
+    $form = $this->createFormBuilder($defaultData)
+        ->add('name', TextType::class, array('required'=>false))
+        ->add('ref', TextType::class, array('required'=>false))
+        ->add('save', SubmitType::class,array('label'=> 'Recherche'))
+        ->getForm();
+
+       // $form->handleRequest($request);
+
+     if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $data = $form->getData();
+        $products = $em->getRepository(Produit::class)->findProduitByParametres($data);
+
+    return $this->render("M1MagAppBundle:Magasinier:List_Stock.html.twig", array('form' => $form->createView(),'produits'=> $products));
+   
+    }
+
+		//return $this->render("M1MagAppBundle:Magasinier:List_Stock.html.twig", ['produits'=> $produits]);
+
+    return $this->render("M1MagAppBundle:Magasinier:List_Stock.html.twig", array('form' => $form->createView(),'produits'=> $produits));
    
     }
 

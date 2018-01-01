@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use M1\MagAppBundle\Form\ImagesType;
 use M1\MagAppBundle\Repository\CategoriesRepository;
 use M1\MagAppBundle\Form\CategoriesType;
 
@@ -38,7 +39,7 @@ class ProduitType extends AbstractType
                     return $rep->getAllCategories();
                   }
              ))
-            ->add('image')
+           ->add('image',     ImagesType::class) // Ajoutez cette ligne
             ->add('save', SubmitType::class);
            // ->add('categorie');
     }

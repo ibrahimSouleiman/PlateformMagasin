@@ -18,8 +18,8 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new M1\MagAppBundle\M1MagAppBundle(),
             new M1\UserBundle\M1UserBundle(),
-            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-        ];
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle()        ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();

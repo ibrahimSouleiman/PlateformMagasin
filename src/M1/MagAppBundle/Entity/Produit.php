@@ -51,10 +51,8 @@ class Produit
     private $quantite;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255)
-     */
+    * @ORM\ManyToOne(targetEntity="Images", cascade={"persist"})
+    */
     private $image;
 
     /**

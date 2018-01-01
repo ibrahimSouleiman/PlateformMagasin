@@ -3,29 +3,26 @@
 namespace M1\MagAppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PaniersType extends AbstractType
+class ImagesType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('save',SubmitType::class,array('label'=> 'ajouter dans le panier'));
-    }
-    
-    /**
+        $builder->add('file', FileType::class);
+
+    }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'M1\MagAppBundle\Entity\Paniers'
+            'data_class' => 'M1\MagAppBundle\Entity\Images'
         ));
     }
 
@@ -34,7 +31,7 @@ class PaniersType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'm1_magappbundle_paniers';
+        return 'm1_magappbundle_images';
     }
 
 
