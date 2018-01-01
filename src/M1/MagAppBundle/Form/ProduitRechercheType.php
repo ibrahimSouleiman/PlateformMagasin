@@ -29,7 +29,7 @@ class ProduitRechercheType extends AbstractType
             ->add('nom', TextType::class,array(
                 'required' => false
             ))
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class,array('label' => 'Recherche'));
     }
 
 
