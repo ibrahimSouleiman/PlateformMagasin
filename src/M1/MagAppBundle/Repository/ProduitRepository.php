@@ -10,12 +10,23 @@ namespace M1\MagAppBundle\Repository;
  */
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findProduit($id)
+	/*public function findProduit($id)
 	{
         $query = $this->createQueryBuilder('p');
 
         $query->where('p.id = :id')->setParameter('id', $id);
 
        return $query->getQuery()->getResult();
+   }*/
+
+   public function findProduitByParametres($data)
+   {
+   		$query = $this->createQueryBuilder('p');
+		$query->where('p.nom LIKE  :nom')
+		->andWhere('p.reference LIKE  :reference ')
+		->setParameters(array( 'nom' => '%'.$data['name'].'%',  'reference' => '%'.$data['ref'].'%'));
+
+    return $query->getQuery()->getResult();
    }
+
 }
