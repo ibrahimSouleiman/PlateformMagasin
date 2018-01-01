@@ -1,9 +1,115 @@
 
-{% extends "M1MagAppBundle::layout.html.twig" %}
-
-{% block title %}{{ parent() }} - Index{% endblock %}
+{% extends 'M1MagAppBundle::Produit/base.html.twig' %}
 
 {% block body %}
+    <div id="all">
+
+    <div id="content">
+    <div class="container">
+        <div class="col-md-9" id="checkout">
+
+            <div class="box">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                <h1>Checkout</h1>
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="active"><a href="#"><i class="fa fa-map-marker"></i><br>Ajout d'address</a>
+                        </li>
+                        <!--
+                        <li class="disabled"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a>
+                        </li>
+                        <li class="disabled"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
+                        </li>
+                        -->
+                        <li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Validé</a>
+                        </li>
+                    </ul>
+
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="company">Nom</label>
+
+                                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <label for="company">Adresse</label>
+                                    {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="city">Ville</label>
+                                    {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="zip">Region</label>
+                                    {{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="phone">Code postal</label>
+                                    {{ form_widget(form.codepostal, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="email">Pays</label>
+                                    {{ form_widget(form.pays, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="email">Telephone</label>
+                                    {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                    </div>
+
+                    <div class="box-footer">
+
+                        <div class="pull-right">
+
+                             {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+            <!-- /.box -->
+
+
+        </div>
+        <!-- /.col-md-9 -->
+
+    </div>
+
+    </div>
+
 
 
     <h3>Ajout Adresse</h3>
