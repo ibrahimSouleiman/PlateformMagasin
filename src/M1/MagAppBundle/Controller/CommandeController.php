@@ -149,7 +149,7 @@ class CommandeController extends Controller
                          WHERE p.utilisateur = :iduser
                           and p.etat=:valider or p.etat=:traite'
         )->setParameter('iduser', $user->getId())
-            ->setParameter('valider', 'valider')
+            ->setParameter('valider', 'validé')
             ->setParameter('traite', 'traité');
         $paniers = $query->getResult();
 

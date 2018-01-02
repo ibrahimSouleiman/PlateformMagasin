@@ -499,9 +499,7 @@ class ProduitController extends Controller
 
 
 
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     */
+   
      public function listStockAction(Request $request)
     {
            $em = $this->getDoctrine()->getManager();

@@ -196,29 +196,6 @@ class PanierController extends Controller
 
       $this->get('mailer')->send($message);
 
-/*
-        $mailer = $container->get('mailer');
-        $spool = $mailer->getTransport()->getSpool();
-        $transport = $container->get('swiftmailer.transport.real');
-
-        $sender     = 'ibroleonardo@gmail.com';
-        $recipient  = 'ibroleonardo@gmail.com';
-        $title      = 'your_title';
-        $body       = 'your_message';
-        $charset    = "UTF-8";
-
-        $email = $mailer->createMessage()
-            ->setSubject($title)
-            ->setFrom("$sender")
-            ->setTo("$recipient")
-            ->setCharset($charset)
-            ->setContentType('text/html')
-            ->setBody($body)
-        ;
-
-        $send = $mailer->send($email);
-        $spool->flushQueue($transport);
-*/
         return $this->redirectToRoute('m1_mag_app_homepage');
 
 
@@ -433,10 +410,10 @@ class PanierController extends Controller
             $today = date("Y-m-d H:i:s");
 
             $panier->setEtat("validé");
+            $panier->setDateHoraireValide(new \DateTime("now"));
 
 
             foreach ($commandes as $commande){
-                $commande->setDateHoraireValide(new \DateTime("now"));
 
 
                 $produit = $em->getRepository(Produit::class)->find($commande->getProduit());
@@ -524,12 +501,7 @@ class PanierController extends Controller
 		    $emv->persist($vente);
         $emv->flush();
 
-        /* reduire le stock
-        $produit = $emv->getRepository(Produit::class)->find($vente->getProduit()->getId());
-        $Qte = $Quantite - ($commande->getQuantite());
-        $produit->setQuantite($Qte);
-        $emv->persist($produit);
-        $emv->flush();   */
+
 
         $commande->setEtat('traité');
         $emv->persist($commande);
