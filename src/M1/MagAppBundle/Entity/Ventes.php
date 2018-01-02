@@ -3,6 +3,8 @@
 namespace M1\MagAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Ventes
@@ -45,6 +47,21 @@ class Ventes
 
     /**
      * @var int
+     *
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Quantite  doit  être que  des chiffres")
+     *@Assert\Length(
+     * max=3,
+     *     maxMessage = "La quantite  ne doit pas depasse {{ limit }} chiffre"
+     * )
+     *
+     *@Assert\Range(
+     *     min=1,
+     *     max=200,
+     *     minMessage = "La quantite doit être au moins {{ limit }} ",
+     *     maxMessage = "La quantite ne doit pas depassez {{ limit }} "
+     * )
      *
      * @ORM\Column(name="quantite", type="integer")
      */

@@ -3,6 +3,7 @@
 namespace M1\MagAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Adresses
@@ -23,49 +24,118 @@ class Adresses
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Nom contenu dans adresse ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="Nom contenu dans adresse doit contenir que des caracteres")
      *
-     * @ORM\Column(name="Nom", type="string", length=125)
+     * @Assert\Length(
+     *     min=3,
+     *     max=30,
+     *     minMessage = "Nom contenu dans adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Nom contenu dans adresse ne doit pas depasse {{ limit }} charactère"
+     * )
+     * @ORM\Column(name="nom", type="string", length=125)
      */
     private $nom;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Adresse ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9]*$/",
+     *     message="Adresse doit contenir que des caracteres ou des chiffres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=255,
+     *     minMessage = "Adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Adresse ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="adresse", type="string", length=255)
      */
     private $adresse;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="le Champ ville contenu dans adresse ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="le Champ ville contenu  dans adresse doit contenir que des caracteres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=30,
+     *     minMessage = "le Champ ville contenu  dans adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "le Champ ville contenu  ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="ville", type="string", length=255)
      */
     private $ville;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="le Champ region contenu dans adresse ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="le Champ region contenu  dans adresse doit contenir que des caracteres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=30,
+     *     minMessage = "le Champ region contenu  dans adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "le Champ region contenu  ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="region", type="string", length=100)
      */
     private $region;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="le Champ Code Postal contenu dans adresse ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="le Champ Code Postal contenu  dans adresse doit contenir que des caracteres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=10,
+     *     minMessage = "le Champ Code Postal contenu  dans adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "le Champ Code Postal contenu  ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="codepostal", type="integer")
      */
     private $codepostal;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="le Champ Pays contenu dans adresse ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="le Champ Pays contenu  dans adresse doit contenir que des caracteres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=30,
+     *     minMessage = "le Champ Pays contenu  dans adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "le Champ Pays contenu  ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="Pays", type="string", length=100)
      */
     private $pays;
 
     /**
      * @var string
+     * @Assert\Regex(
+     *     pattern="/^[0-9+()]*$/",
+     *     message="le Champ Telephone contenu  dans adresse doit contenir que des caracteres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=10,
+     *     minMessage = "le Champ Telephone contenu  dans adresse doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "le Champ Telephone contenu  ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="telephone", type="string", length=100)
      */
     private $telephone;

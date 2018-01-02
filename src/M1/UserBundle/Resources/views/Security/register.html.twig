@@ -13,70 +13,62 @@
 
 
 </head>
-{% block body %}
-<!--
+<body>
 
-
-    {# Le formulaire, avec URL de soumission vers la route « login_check » comme on l'a vu #}
-
-    <div class="panel panel-info">
-
-        <div class="panel-heading">
-
-            <h3 class="text-center">Création d'un Compte</h3>
-        </div>
-        <div class="panel-body">
-
-            {{ form(form) }}
-        </div>
-
-    </div>
-
--->
 <div class="form">
 
     <ul class="tab-group">
-        <li class="tab active"><a href="#signup">Sign Up</a></li>
+        <li class="tab active"><a href="#signup">S"inscrire</a></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-signupsignup">
         <div id="signup">
-            <h1>Sign Up for Free</h1>
+            <h1>Inscription</h1>
+            {{ form_errors(form) }}
 
-            <form action="/" method="post">
+            {{ form_start(form)}}
 
                 <div class="top-row">
                     <div class="field-wrap">
-                        <label>
-                            First Name<span class="req">*</span>
-                        </label>
-                        <input type="text" required autocomplete="off" />
+
+                        {{ form_widget(form.prenom, {'attr': {'class': 'btn btn-primary','required':'true','placeholder':'prénom*'}}) }}
+                        <div class="alert alert-danger" style="color: red">
+                            {{ form_errors(form.prenom, {'attr': {'class': 'btn btn-primary','required':'true'}}) }}
+                        </div>
                     </div>
 
                     <div class="field-wrap">
-                        <label>
-                            Last Name<span class="req">*</span>
-                        </label>
-                        <input type="text"required autocomplete="off"/>
+
+                        {{ form_widget(form.nom, {'attr': {'required':'true','placeholder':'nom*'}}) }}
+
+                        <div class="alert alert-danger" style="color: red">
+                            {{ form_errors(form.nom, {'attr': {'class': 'btn btn-primary','required':'true'}}) }}
+                        </div>
                     </div>
                 </div>
 
                 <div class="field-wrap">
-                    <label>
-                        Email Address<span class="req">*</span>
-                    </label>
-                    <input type="email"required autocomplete="off"/>
+
+                    {{ form_widget(form.username, {'attr': {'class': 'btn btn-primary','required':'true','placeholder':'Adresse Email*'}}) }}
+
+                    <div class="alert alert-danger" style="color: red">
+                        {{ form_errors(form.username, {'attr': {'class': 'btn btn-primary','required':'true'}}) }}
+                    </div>
                 </div>
                 <div class="field-wrap">
-                    <label>
-                        Set A Password<span class="req">*</span>
-                    </label>
-                    <input type="password"required autocomplete="off"/>
+
+
+                    <div style="color: red">
+                        {{ form_errors(form.password, {'attr': {'class': 'btn btn-primary','required':'true','placeholder':'*'}}) }}
+                    </div>
+                    {{ form_widget(form.password, {'attr': {'class': 'btn btn-primary','required':'true'}}) }}
+
                 </div>
+            <p class="forgot"><a href="{{ path('login') }}">Se Connecte</a></p>
 
-                <button type="submit" class="button button-block"/>Get Started</button>
+            {{ form_widget(form.submit, {'attr': {'class': 'button button-block','required':'true'}}) }}
 
-            </form>
+            {{ form_end(form) }}
 
         </div>
 
@@ -90,5 +82,5 @@
     <script  src="{{ asset('template/js/index.js') }}"></script>
 
 
-{% endblock %}
+</body>
 </html>

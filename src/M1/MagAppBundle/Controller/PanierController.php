@@ -275,7 +275,6 @@ class PanierController extends Controller
                 $commande->setPanier($panier);
                 $commande->setQuantite(1);
                 $commande->setDateHoraireAjout(new \DateTime("now"));
-                $commande->setDateHoraireValide(new \DateTime());
                 $commande->setEtat("Initial");
                 $em->persist($commande);
                 $em->flush();
@@ -482,7 +481,10 @@ class PanierController extends Controller
 
     }
 /*****************************************************************************************/
- public function listPanierAction(Request $request)
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+   public function listPanierAction(Request $request)
     {
            $Panier = new Paniers();
 
@@ -492,7 +494,9 @@ class PanierController extends Controller
    return $this->render("M1MagAppBundle:Magasinier:List_Panier.html.twig", ['paniers'=> $paniers]);
     }
 
-
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function validerPanierAction($id)
     {     
     	 $em = $this->getDoctrine()->getManager();

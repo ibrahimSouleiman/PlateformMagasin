@@ -7,10 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use M1\MagAppBundle\Form\CategoriesType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class CategorieController extends Controller
 {
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function addAction(Request $request)
     {
     	$categorie = new Categories();

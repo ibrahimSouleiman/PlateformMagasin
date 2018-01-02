@@ -328,7 +328,9 @@ class CommandeController extends Controller
     }
 
 
-
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function listCommandeAction($id)
     {
 		$repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');

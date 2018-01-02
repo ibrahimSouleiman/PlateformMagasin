@@ -22,14 +22,28 @@ class SecurityController extends Controller
 
             // Si le visiteur est déjà identifié, on le redirige vers l'accueil
             if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                $user = $this->get('security.token_storage')->getToken()->getUser();
 
-
+/*
                 if ($this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
-                  //  return $this->redirectToRoute('m1_mag_app_homepage');
+                    return $this->redirectToRoute('m1_mag_app_homepage');
+
                 }else if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')){
-                   // return $this->redirectToRoute('register');
+                    return $this->redirectToRoute('list_stock');
 
                 }
+*/
+$roleadmin=array("ROLE_ADMIN");
+$roleauser=array("ROLE_USER");
+
+if($user->getRoles()==$roleadmin){
+    return $this->redirectToRoute('add_prod');
+
+}else if($user->getRoles()==$roleadmin)
+{
+    return $this->redirectToRoute('m1_mag_app_homepage');
+
+}
 
             }
 

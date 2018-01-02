@@ -3,6 +3,7 @@
 namespace M1\MagAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Paniers
@@ -23,14 +24,23 @@ class Paniers
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="Etat du Panier doit constitue que des Caractère")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=100,
+     *     minMessage = "Etat du  Panier doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Etat du  Panier ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="etat", type="string", length=255)
      */
     private $etat;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="dateHoraireValide", type="datetimetz")
      */
     private $datehorairevalide;
@@ -38,7 +48,16 @@ class Paniers
 
     /**
      * @var string
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="Description du Panier doit constitue que des Caractère")
      *
+     * @Assert\Length(
+     *     min=0,
+     *     max=255,
+     *     minMessage = "Description du  Panier doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Description du  Panier ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;

@@ -15,7 +15,7 @@ class LoadUserData implements FixtureInterface
         $user = new Utilisateurs();
 
         // Le nom d'utilisateur et le mot de passe sont identiques
-        $user->setUsername("admin");
+        $user->setUsername("admin@gmail.com");
         $user->setPassword("magadmin");
 
         $user->setPrenom('Mohamed');

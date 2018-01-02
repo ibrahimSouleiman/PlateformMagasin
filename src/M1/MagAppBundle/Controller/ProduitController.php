@@ -270,9 +270,7 @@ class ProduitController extends Controller
 
 }
 
-    /**
-     *  #@Security("has_role('ROLE_ADMIN')")
-     */
+
     public function detailAction(Request $request,$ref)
     {
         $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
@@ -428,7 +426,6 @@ class ProduitController extends Controller
                     $commande->setProduit($produit);
                     $commande->setPanier($panier);
                     $commande->setDateHoraireAjout(new \DateTime("now"));
-                    $commande->setDateHoraireValide(new \DateTime());
                     $commande->setEtat("Initial");
                     $em->persist($commande);
                     $em->flush();
@@ -474,7 +471,9 @@ class ProduitController extends Controller
 
 
     /**************************************************************************************************************/
-
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function addAction(Request $request)
     {
     	$produit = new Produit();
@@ -498,6 +497,11 @@ class ProduitController extends Controller
     ));
     }
 
+
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
      public function listStockAction(Request $request)
     {
            $em = $this->getDoctrine()->getManager();
@@ -528,7 +532,9 @@ class ProduitController extends Controller
     return $this->render("M1MagAppBundle:Magasinier:List_Stock.html.twig", array('form' => $form->createView(),'produits'=> $produits));
    
     }
-
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
      public function exportCSVAction()
     {
         
@@ -564,7 +570,9 @@ class ProduitController extends Controller
    // return $this->redirectToRoute('list_stock');
     }
 
-
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
        public function updateStockAction($id, Request $request)
     {
     	   $Prod = new Produit();

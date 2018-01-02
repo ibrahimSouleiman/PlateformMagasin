@@ -3,6 +3,7 @@
 namespace M1\MagAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commandes
@@ -22,13 +23,6 @@ class Commandes
      */
     private $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateHoraireValide", type="datetimetz")
-     */
-    private $dateHoraireValide;
-
 
     /**
      * @var \DateTime
@@ -39,7 +33,17 @@ class Commandes
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]*$/",
+     *     message="Etat de la Commande doit constitue que des Caractère")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=100,
+     *     minMessage = "Etat de la Commande doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Etat de la Commande ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="etat", type="string", length=255)
      */
     private $etat;
@@ -60,7 +64,23 @@ class Commandes
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Quantite du Produit ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Quantite Commande doit contenir que  des chiffres")
      *
+     * @Assert\Length(
+     *     min=1,
+     *     max=4,
+     *     minMessage = " Quantite C doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Quantite Commande ne doit pas depasse {{ limit }} charactère"
+     * )
+     * @Assert\Range(
+     *     min=0,
+     *     max=200,
+     *     minMessage = "Quantite Commande doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Quantite Commande ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="quantite", type="integer")
      */
     private $quantite;
@@ -74,29 +94,7 @@ class Commandes
     {
         return $this->id;
     }
-    /**
-     * Set dateHoraireValide
-     *
-     * @param \DateTime $dateHoraire
-     *
-     * @return Commande
-     */
-    public function setDateHoraireValide($dateHoraireValide)
-    {
-        $this->dateHoraireValide = $dateHoraireValide;
 
-        return $this;
-    }
-
-    /**
-     * Get dateHoraire
-     *
-     * @return \DateTime
-     */
-    public function getDateHoraireValide()
-    {
-        return $this->dateHoraireValide;
-    }
     /**
      * Set dateHoraire
      *

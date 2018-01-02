@@ -50,11 +50,10 @@ a:hover {
   color: #a0b3b0;
   font-size: 20px;
   float: left;
-  width: 50%;
+  width: 100%;
   text-align: center;
   cursor: pointer;
-  -webkit-transition: .5s ease;
-  transition: .5s ease;
+
 }
 .tab-group li a:hover {
   background: #179b77;
@@ -93,7 +92,7 @@ label .req {
   color: #1ab188;
 }
 
-label.active {
+label {
   -webkit-transform: translateY(50px);
           transform: translateY(50px);
   left: 2px;

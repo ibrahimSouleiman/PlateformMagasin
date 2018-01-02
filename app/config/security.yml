@@ -33,7 +33,7 @@ security:
             logout:
                 path:   logout
                 target: /
-  # access_control:
+  #access_control:
    #         - { path: ^/Magasinier, roles: ROLE_ADMIN,requires_channel: https}
             # activate different ways to authenticate
 

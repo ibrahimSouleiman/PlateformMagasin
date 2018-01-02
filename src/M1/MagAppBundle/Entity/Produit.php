@@ -3,6 +3,7 @@
 namespace M1\MagAppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Produit
@@ -23,7 +24,17 @@ class Produit
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Nom du Produit ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9]*$/",
+     *     message="Nom Produit doit contenir que des caracteres et des chiffres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=200,
+     *     minMessage = "Nom  du produit doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Nom du produit ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="nom", type="string", length=200)
      */
     private $nom;
@@ -31,7 +42,17 @@ class Produit
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Reference du Produit ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9]*$/",
+     *     message="Nom Produit doit contenir que des caracteres et des chiffres")
      *
+     * @Assert\Length(
+     *     min=3,
+     *     max=200,
+     *     minMessage = "Nom  du produit doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Nom du produit ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="reference", type="string", length=200)
      */
     private $reference;
@@ -45,12 +66,29 @@ class Produit
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Quantite du Produit ne doit pas être vide")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Quantite du Produit doit contenir que  des chiffres")
      *
+     * @Assert\Length(
+     *     min=1,
+     *     max=4,
+     *     minMessage = "Quantite  du produit doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Quantite du produit ne doit pas depasse {{ limit }} charactère"
+     * )
+     * @Assert\Range(
+     *     min=0,
+     *     max=200,
+     *     minMessage = "Quantite du produit doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Quantite du produit ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="quantite", type="integer")
      */
     private $quantite;
 
     /**
+    *
     * @ORM\ManyToOne(targetEntity="Images", cascade={"persist"})
     */
     private $image;
@@ -58,6 +96,16 @@ class Produit
     /**
      * @var string
      *
+     *  @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9]*$/",
+     *     message="Details du Produit doit contenir que des caracteres et des chiffres")
+     *
+     * @Assert\Length(
+     *     min=3,
+     *     max=255,
+     *     minMessage = "Detail  du produit doit contenir au moins {{ limit }} charactère ",
+     *     maxMessage = "Detail du produit ne doit pas depasse {{ limit }} charactère"
+     * )
      * @ORM\Column(name="details", type="string", length=255)
      */
     private $details;
