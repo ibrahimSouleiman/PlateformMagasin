@@ -51,17 +51,16 @@ _________________________________________________________ -->
             <ul class="menu">
                 {% if is_granted ('IS_AUTHENTICATED_FULLY') %}
 
-                <li><a href="{{ path('logout') }}" data-toggle="modal" data-target="#login-modal">Déconnexion</a>
+                <li><a href="{{ path('logout') }}" >Déconnexion</a>
                 </li>
 
                 {% else  %}
-                        <li><a href="{{ path('login') }}" data-toggle="modal" data-target="#login-modal">Connexion</a>
+                        <li><a href="{{ path('login') }}">Connexion</a>
                         </li>
                 {% endif %}
-                <li><a href="register.html">S'inscrire</a>
+                <li><a href="{{ path('register') }}">S'inscrire</a>
                 </li>
-                <li><a href="contact.html">Contacte</a>
-                </li>
+
 
             </ul>
         </div>
@@ -141,7 +140,7 @@ _________________________________________________________ -->
                                         <ul>
                                             <li><a href="{{ path('m1_mag_app_listecommandepage')}}">Mes Commandes </a>
                                             </li>
-                                            <li><a href="category.html">Liste d'envies</a>
+                                            <li><a href="#">Liste d'envies</a>
                                             </li>
 
                                         </ul>
@@ -149,14 +148,10 @@ _________________________________________________________ -->
                                     <div class="col-sm-3">
                                         <div class="banner">
                                             <a href="#">
-                                                <img src="img/banner.jpg" class="img img-responsive" alt="">
+                                                <img src="{{ asset('img/2018.jpg')}}" class="img img-responsive" alt="">
                                             </a>
                                         </div>
-                                        <div class="banner">
-                                            <a href="#">
-                                                <img src="img/banner2.jpg" class="img img-responsive" alt="">
-                                            </a>
-                                        </div>
+
                                     </div>
                                 </div>
 
@@ -175,9 +170,9 @@ _________________________________________________________ -->
                                     <div class="col-sm-8">
                                         <h5>Compte</h5>
                                         <ul>
-                                            <li><a href="category.html">Voir Mon Compte</a>
+                                            <li><a href="#">Voir Mon Compte</a>
                                             </li>
-                                            <li><a href="category.html">Modifier Mot de Passe</a>
+                                            <li><a href="#">Modifier Mot de Passe</a>
                                             </li>
 
                                         </ul>
@@ -186,14 +181,10 @@ _________________________________________________________ -->
                                     <div class="col-sm-3">
                                         <div class="banner">
                                             <a href="#">
-                                                <img src="img/banner.jpg" class="img img-responsive" alt="">
+                                                <img src="{{ asset('img/2018.jpg')}}" class="img img-responsive" alt="">
                                             </a>
                                         </div>
-                                        <div class="banner">
-                                            <a href="#">
-                                                <img src="img/banner2.jpg" class="img img-responsive" alt="">
-                                            </a>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -263,25 +254,110 @@ _________________________________________________________ -->
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/front.js"></script>
 {% endblock %}
-<!-- *** COPYRIGHT ***
-_________________________________________________________ -->
-<div id="copyright">
-    <div class="container">
-        <div class="col-md-6">
-            <p class="pull-left">© 2015 Your name goes here.</p>
+    <!-- *** FOOTER ***
+    _________________________________________________________ -->
+    <div id="footer" data-animate="fadeInUp">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <h4>Réaliser Par:</h4>
+
+                    <ul>
+                        <li><a href="#">ibrahim Souleiman</a>
+                        </li>
+                        <li><a href="#">sarah MOEINI</a>
+                        </li>
+                        <li><a href="#">mohamed Mahamoud</a>
+                        </li>
+
+                    </ul>
+
+                    <hr>
+
+
+
+
+                </div>
+                <!-- /.col-md-3 -->
+
+                <div class="col-md-3 col-sm-6">
+
+
+                </div>
+                <!-- /.col-md-3 -->
+
+                <div class="col-md-3 col-sm-6">
+
+                    <h4>Adresse</h4>
+
+                    <p>
+                        <br>171 avenu de Luminy
+                        <br>Marseille , 13009
+                        <br>France
+
+                    </p>
+
+
+
+                </div>
+                <!-- /.col-md-3 -->
+
+
+
+                <div class="col-md-3 col-sm-6">
+
+
+
+                    <h4>Réseau Sociaux</h4>
+
+                    <p class="social">
+                        <a href="#" class="facebook external" data-animate-hover="shake"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="twitter external" data-animate-hover="shake"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
+                        <a href="#" class="gplus external" data-animate-hover="shake"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="email external" data-animate-hover="shake"><i class="fa fa-envelope"></i></a>
+                    </p>
+
+
+                </div>
+                <!-- /.col-md-3 -->
+
+            </div>
+            <!-- /.row -->
 
         </div>
-        <div class="col-md-6">
-            <p class="pull-right">Template by <a href="https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> & <a href="https://fity.cz">Fity</a>
-                <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
-            </p>
+        <!-- /.container -->
+    </div>
+    <!-- /#footer -->
+
+    <!-- *** FOOTER END *** -->
+
+
+
+
+    <!-- *** COPYRIGHT ***
+_________________________________________________________ -->
+    <div id="copyright">
+        <div class="container">
+            <div class="col-md-6">
+                <p class="pull-left">© 2018 .</p>
+
+            </div>
+            <div class="col-md-6">
+                <p class="pull-right">Réaliser dans le Cadre <a href="#"> d'un projet ODI</a>
+                    <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
+                </p>
+            </div>
         </div>
     </div>
-</div>
-<!-- *** COPYRIGHT END *** -->
+    <!-- *** COPYRIGHT END *** -->
+
+
 
 </div>
 <!-- /#all -->
+
+
 
 </body>
 </html>

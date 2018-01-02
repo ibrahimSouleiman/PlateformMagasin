@@ -34,12 +34,12 @@ class SecurityController extends Controller
                 }
 */
 $roleadmin=array("ROLE_ADMIN");
-$roleauser=array("ROLE_USER");
+$roleuser=array("ROLE_USER");
 
 if($user->getRoles()==$roleadmin){
     return $this->redirectToRoute('add_prod');
 
-}else if($user->getRoles()==$roleadmin)
+}else if($user->getRoles()==$roleuser)
 {
     return $this->redirectToRoute('m1_mag_app_homepage');
 
