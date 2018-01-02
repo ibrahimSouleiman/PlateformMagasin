@@ -68,7 +68,7 @@ _________________________________________________________ -->
                                     {% set color ='' %}
                                     {% set etat ='' %}
 
-                                    {% if pcommande.Panier.etat=='valider'%}
+                                    {% if pcommande.Panier.etat=='validé'%}
                                         {% set color ='label label-info' %}
                                         {% set etat='En cour de traitement' %}
 
@@ -108,5 +108,5 @@ _________________________________________________________ -->
         <!-- /.container -->
     </div>
     <!-- /#content -->
-    
+
 {% endblock %}

@@ -137,7 +137,8 @@ class PanierController extends Controller
 
         }
 
-        if ($request->isMethod('POST')){
+        if ($request->isMethod('post')){
+
 
             foreach ($commandes as $commande){
 
@@ -246,6 +247,8 @@ class PanierController extends Controller
             $panier->setEtat("Actif");
             $panier->setUtilisateur($user);
             $panier->setDescription("Mon Premier Panier");
+            $panier->setDateHoraireValide(new \DateTime());
+
         }
 
         $commande=new Commandes();
@@ -430,7 +433,7 @@ class PanierController extends Controller
             $em = $this->getDoctrine()->getManager();
             $today = date("Y-m-d H:i:s");
 
-            $panier->setEtat("valider");
+            $panier->setEtat("validé");
 
 
             foreach ($commandes as $commande){
@@ -532,8 +535,8 @@ class PanierController extends Controller
      else
      {
         $commande->setEtat('non traité');
-        $emv->persist($commande);
-        $emv->flush();
+        $em->persist($commande);
+        $em->flush();
      }
 		}
 

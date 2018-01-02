@@ -27,6 +27,12 @@
 
                     <div class="content">
                         <div class="row">
+                            {% if Adresses==[] %}
+                                <p class="lead">Veuillez  <strong>ajouter une nouvelle adresse</strong>.</p>
+
+
+                            {% endif %}
+
                       {% for adr in Adresses %}
 
                           <div class="col-md-3 col-sm-4">
@@ -83,45 +89,5 @@
     </div>
 </div>
     </div>
-
-    Liste de Produits
-
-{% if is_granted ('IS_AUTHENTICATED_FULLY') %}
-    <a href="/logout">Deconnecter</a>
-
-{% else  %}
-    <a href="/login">Connecter</a>
-
-{% endif %}
-
-<a href="/MonPanier">Voir Mon Panier</a>
-
-<H1>Sélectionner une adresse d'expédition</H1>
-<a href="{{ path('m1_mag_app_addadressepage') }}"><button id="commande" >Ajouter une nouvelle Adresse</button></a>
-
-<table  cellspacing="50" >
-    <tr>
-
-        {% for adr in Adresses %}
-            <td width="50" height="20">
-                <h3 style="color: #222222">{{ adr.nom }}</h3>
-
-                <h5>{{ adr.adresse }}</h5>
-                <h5>{{ adr.ville}},{{ adr.codepostal}}</h5>
-
-                <h5>{{ adr.pays }} </h5>
-
-              <a href="{{ path('m1_mag_app_panieradressepage',{'refadresse':adr.id}) }}"><button style="background-color: yellow">Livre à cette Adresse</button></a>
-
-             <h5>   <a href=""><button >Modifier</button></a>
-                <a href=""><button >Supprimer</button></a>
-             </h5>
-
-            </td>
-
-        {% endfor %}
-    </tr>
-
-</table>
 
 {% endblock %}

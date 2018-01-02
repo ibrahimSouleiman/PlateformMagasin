@@ -52,6 +52,8 @@ _________________________________________________________ -->
                                 <th colspan="2">Produit</th>
                                 <th>Quantite</th>
                                 <th>Prix Unitaire</th>
+                                <th>Etat</th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -69,6 +71,7 @@ _________________________________________________________ -->
                                 </td>
                                 <td>{{ commande.quantite }}</td>
                                 <td>$ {{ commande.produit.prix }}</td>
+                                    <td>{{ commande.etat }}</td>
                                     <td>
 
                                         {%  if ( commande.produit.quantite > 1) %}

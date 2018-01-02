@@ -299,6 +299,8 @@ class ProduitController extends Controller
             $panier->setEtat("Actif");
             $panier->setUtilisateur($user);
             $panier->setDescription("Mon Premier Panier");
+            $panier->setDateHoraireValide(new \DateTime());
+
         }
 
         $commande=new Commandes();
