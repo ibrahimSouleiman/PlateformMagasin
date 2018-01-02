@@ -39,8 +39,8 @@ class ProduitType extends AbstractType
                     return $rep->getAllCategories();
                   }
              ))
-           ->add('image',     ImagesType::class) // Ajoutez cette ligne
-            ->add('save', SubmitType::class);
+           ->add('image',     ImagesType::class, array('label'=> '')) // Ajoutez cette ligne
+            ->add('save', SubmitType::class, array('label'=> 'Enregistrer'));
            // ->add('categorie');
     }
     

@@ -7,18 +7,24 @@
 
 
 <h3>Détails du panier</h3>
+  
+  <h4>Client</h4>
+  <ul>
+    
+    <li> Nom:  </li>
+    <li> Prenom: </li>
+  </ul>
 
-<table >
-	<th>Panier</th>
-	<th>Nom</th>
-	<th>Prenom</th>
-	<th>Etat</th>
-	<th>Validé</th>
-  <th>Description</th>
+<h4>Commandes</h4>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+	<th>Produit</th>
+	<th>Référence</th>
+  <th>Prix</th>
+	<th>Quantité</th>
 
 	{% for commande in Commandes %}
        <tr>
-            <td> {{ commande.produit.nom }}   </td>
+            <td>  {{ commande.produit.nom}}    </td>
             <td> {{ commande.produit.reference }} </td>
             <td> {{ commande.produit.prix }} </td>
             <td> {{ commande.quantite }} </td>
@@ -26,6 +32,7 @@
     {% endfor %}
 
   </table>
+
 
 
 <br/>

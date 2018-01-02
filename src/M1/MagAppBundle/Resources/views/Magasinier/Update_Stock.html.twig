@@ -3,9 +3,13 @@
 {% block title %}{{ parent() }} - Index{% endblock %}
 
 {% block body %}
+
+<h3>Alimenter le stock</h3>
+
+    <img src="{{ asset(produit.image.url) | imagine_filter('md_thumb') }}" alt="{{ produit.image.alt }}" />
 <table>
     <tr>
-       <td>Nom:</td>
+       <td>Produit</td>
        <td> {{ produit.nom }}</td> 
    </tr>
     <tr> 

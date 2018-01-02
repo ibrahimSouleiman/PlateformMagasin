@@ -80,5 +80,9 @@ details_panier:
     path: /Magasinier/listCommande/{id}
     defaults: {_controller: M1MagAppBundle:Commande:listCommande}  
 
+download:
+    path: /Magasinier/download
+    defaults: {_controller: M1MagAppBundle:Produit:exportCSV}  
+
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"

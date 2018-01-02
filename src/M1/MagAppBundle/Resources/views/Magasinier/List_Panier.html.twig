@@ -6,24 +6,24 @@
 
 <h3>Listes des paniers</h3>
 
-<table >
-	<th>Description</th>
-	<th>Nom</th>
-	<th>Prenom</th>
-	<th>Etat</th>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+<thead>
+	<th>Client</th>
+	<th>Etat du Panier</th>
+	<th>Détails </th>
 	<th>Validé</th>
-  <th>Description</th>
-
+</thead>
+<tbody>
 	{% for panier in paniers %}
        <tr>
-            <td> {{ panier.description }}   </td>
-            <td> {{ panier.utilisateur.nom }} </td>
-            <td> {{ panier.utilisateur.prenom }} </td>
+            <td> {{ panier.utilisateur.nom }} {{ panier.utilisateur.prenom }}  </td>
             <td> {{ panier.etat }} </td>
-            <td> <a href="{{ path('valide_panier', {'id': panier.id}) }}"> Validé </a> </td>
             <td> <a href="{{ path('details_panier', {'id': panier.id}) }}"> Détails </a> </td>
+  <td> <a href="{{ path('valide_panier', {'id': panier.id}) }}" onclick="return confirm('Voulez-vous vraiment validez ?')" class="btn btn-info" role="button"> Validé </a> </td>
+
        </tr>
     {% endfor %}
+</tbody>
 
   </table>
 

@@ -486,23 +486,6 @@ class PanierController extends Controller
 		   $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
 		   $paniers = $repository->findPanierValider();
 
-		//$produit = $em->getRepository(Produit::class)->find($id);
-       /*   $form = $this->createFormBuilder($Panier)
-                ->setMethod('POST')
-                ->add('save', SubmitType::class)
-                ->getForm();  */
-       // $form  = $this->get('form.factory')->create(PaniersType::class, $Panier);
-
-       /* if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-             $em = $this->getDoctrine()->getManager();
-             $em->persist($paniers);
-             $em->flush();
-
-
-             return $this->redirectToRoute('saved_categorie', array('id' => $paniers->getId()));
-            }*/
-   
-  // return $this->render("M1MagAppBundle:Magasinier:List_Panier.html.twig",array('form' => $form->createView(),'paniers'=> $paniers));
    return $this->render("M1MagAppBundle:Magasinier:List_Panier.html.twig", ['paniers'=> $paniers]);
     }
 
@@ -534,12 +517,12 @@ class PanierController extends Controller
 		    $emv->persist($vente);
         $emv->flush();
 
-        // reduire le stock
+        /* reduire le stock
         $produit = $emv->getRepository(Produit::class)->find($vente->getProduit()->getId());
         $Qte = $Quantite - ($commande->getQuantite());
         $produit->setQuantite($Qte);
         $emv->persist($produit);
-        $emv->flush();
+        $emv->flush();   */
 
         $commande->setEtat('traité');
         $emv->persist($commande);
@@ -555,7 +538,7 @@ class PanierController extends Controller
 		}
 
     // normalement traité
-		$panier->setEtat("valide");
+		$panier->setEtat("traité");
 
 		 $em->persist($panier);
          $em->flush();
