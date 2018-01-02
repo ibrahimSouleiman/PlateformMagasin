@@ -8,15 +8,7 @@
     <div id="content">
         <div class="container">
 
-            <div class="col-md-12">
 
-                <ul class="breadcrumb">
-                    <li><a href="#">Home</a>
-                    </li>
-                    <li>My orders</li>
-                </ul>
-
-            </div>
 
             <div class="col-md-3">
                 <!-- *** CUSTOMER MENU ***
@@ -24,24 +16,16 @@ _________________________________________________________ -->
                 <div class="panel panel-default sidebar-menu">
 
                     <div class="panel-heading">
-                        <h3 class="panel-title">Customer section</h3>
+                        <h3 class="panel-title">Menu Actuelle</h3>
                     </div>
 
                     <div class="panel-body">
 
                         <ul class="nav nav-pills nav-stacked">
                             <li class="active">
-                                <a href="customer-orders.html"><i class="fa fa-list"></i> My orders</a>
+                                <a href="customer-orders.html"><i class="fa fa-list"></i> Mes Commandes</a>
                             </li>
-                            <li>
-                                <a href="customer-wishlist.html"><i class="fa fa-heart"></i> My wishlist</a>
-                            </li>
-                            <li>
-                                <a href="customer-account.html"><i class="fa fa-user"></i> My account</a>
-                            </li>
-                            <li>
-                                <a href="index.html"><i class="fa fa-sign-out"></i> Logout</a>
-                            </li>
+
                         </ul>
                     </div>
 
@@ -63,8 +47,8 @@ _________________________________________________________ -->
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
+
                             <tr>
-                                <th>Order</th>
                                 <th>Date</th>
                                 <th>Total</th>
                                 <th>Status</th>
@@ -72,51 +56,48 @@ _________________________________________________________ -->
                             </tr>
                             </thead>
                             <tbody>
+                                {% for paniercommande in PaniersCommandes %}
+                                {% for pcommande in paniercommande.PanierCommande   %}
+                                    {% set prixtotalpanier =0 %}
+
+                                    {% for commande in pcommande.Commandes   %}
+                                        {% set prixtotalpanier = prixtotalpanier +((commande.quantite) * (commande.produit.prix)) %}
+
+                                                {% endfor %}
+
+                                    {% set color ='' %}
+                                    {% set etat ='' %}
+
+                                    {% if pcommande.Panier.etat=='valider'%}
+                                        {% set color ='label label-info' %}
+                                        {% set etat='En cour de traitement' %}
+
+                                    {% elseif pcommande.Panier.etat=='non-traité'%}
+                                        {% set color ='yellow' %}
+                                        {% set etat='label label-danger' %}
+
+                                    {% elseif pcommande.Panier.etat=='traité'%}
+                                        {% set color ='label label-success ' %}
+
+                                        {% set etat='Traité' %}
+
+                                    {% endif %}
+
                             <tr>
-                                <th># 1735</th>
-                                <td>22/06/2013</td>
-                                <td>$ 150.00</td>
-                                <td><span class="label label-info">Being prepared</span>
+                                <td>{{  pcommande.Panier.datehorairevalide.date }}</td>
+                                <td>{{  prixtotalpanier }}</td>
+                                <td><span class="label label-info">
+
+                                        {{ etat }}
+
+                                    </span>
                                 </td>
-                                <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a>
+                                <td><a href="{{ path('m1_mag_app_commandepage' ,{'id':pcommande.Panier.id}) }}" class="btn btn-primary btn-sm">View</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <th># 1735</th>
-                                <td>22/06/2013</td>
-                                <td>$ 150.00</td>
-                                <td><span class="label label-info">Being prepared</span>
-                                </td>
-                                <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th># 1735</th>
-                                <td>22/06/2013</td>
-                                <td>$ 150.00</td>
-                                <td><span class="label label-success">Received</span>
-                                </td>
-                                <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th># 1735</th>
-                                <td>22/06/2013</td>
-                                <td>$ 150.00</td>
-                                <td><span class="label label-danger">Cancelled</span>
-                                </td>
-                                <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th># 1735</th>
-                                <td>22/06/2013</td>
-                                <td>$ 150.00</td>
-                                <td><span class="label label-warning">On hold</span>
-                                </td>
-                                <td><a href="customer-order.html" class="btn btn-primary btn-sm">View</a>
-                                </td>
-                            </tr>
+                                {% endfor %}
+
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

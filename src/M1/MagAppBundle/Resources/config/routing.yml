@@ -30,6 +30,10 @@ m1_mag_app_listecommandepage:
     path:     /ListeCommandes
     defaults: { _controller: M1MagAppBundle:Commande:liste }
 
+m1_mag_app_commandepage:
+    path:     /Commande/{id}
+    defaults: { _controller: M1MagAppBundle:Commande:viewcommande }
+
 m1_mag_app_ajouterpanierpage:
     path:     /AjouterPanier/{ref}
     defaults: { _controller: M1MagAppBundle:Panier:ajouterPanier}

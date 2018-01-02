@@ -29,6 +29,14 @@ class Paniers
     private $etat;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateHoraireValide", type="datetimetz")
+     */
+    private $datehorairevalide;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
@@ -54,6 +62,30 @@ class Paniers
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set dateHoraireValide
+     *
+     * @param \DateTime $dateHoraire
+     *
+     * @return Panier
+     */
+    public function setDateHoraireValide($datehorairevalide)
+    {
+        $this->datehorairevalide = $datehorairevalide;
+
+        return $this;
+    }
+
+    /**
+     * Get dateHoraire
+     *
+     * @return \DateTime
+     */
+    public function getDateHoraireValide()
+    {
+        return $this->datehorairevalide;
     }
 
  /**

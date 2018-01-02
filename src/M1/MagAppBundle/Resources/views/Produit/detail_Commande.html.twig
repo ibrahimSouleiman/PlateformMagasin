@@ -1,0 +1,117 @@
+
+{% extends 'M1MagAppBundle::Produit/base.html.twig' %}
+
+{% block body %}
+    <div id="all">
+
+    <div id="content">
+        <div class="container">
+
+            <div class="col-md-3">
+                <!-- *** CUSTOMER MENU ***
+_________________________________________________________ -->
+                <div class="panel panel-default sidebar-menu">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Menu Actuelle</h3>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active">
+                                <a href="customer-orders.html"><i class="fa fa-list"></i> Mes Commandes</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- /.col-md-3 -->
+
+                <!-- *** CUSTOMER MENU END *** -->
+            </div>
+
+            <div class="col-md-9" id="customer-order">
+                <div class="box">
+                    <h1>Commandes</h1>
+
+                    {% if Panier.etat == 'valider' %}
+                    <p class="lead">Ses commandes sont  <strong>en cours de preparation</strong>.</p>
+                        {% else %}
+                            <p class="lead">Ses commandes sont  <strong>en étes déjà expedier</strong>.</p>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Produit</th>
+                                <th>Quantite</th>
+                                <th>Prix Unitaire</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set total=0 %}
+                            {% for commande in Commandes %}
+                                {% set total=total+(commande.quantite)*(commande.produit.prix) %}
+
+                                <tr>
+                                <td>
+                                    <a href="#">
+                                        <img src="{{ asset(commande.produit.image.url) }}" alt="White Blouse Armani">
+                                    </a>
+                                </td>
+                                <td><a href="#">{{ commande.produit.nom }}</a>
+                                </td>
+                                <td>{{ commande.quantite }}</td>
+                                <td>$ {{ commande.produit.prix }}</td>
+                                    <td>
+
+                                        {%  if ( commande.produit.quantite > 1) %}
+                                            <a href="{{ path('m1_mag_app_ajouterpanierpage',{'ref':commande.produit.id}) }}"><button class="btn btn-primary"> <i class="fa fa-shopping-cart"></i>Ajouter à nouveau </button></a>
+
+                                        {% endif %}
+                                    </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+
+                            <tr>
+                                <th colspan="5" class="text-right">Total</th>
+                                <th>{{ total }}</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                    <!-- /.table-responsive -->
+
+                    <div class="row addresses">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <h2>Adresse de Livraison</h2>
+                            <p>{{ Panier.adresse.nom }}
+                                <br>{{ Panier.adresse.adresse }}
+                                <br>{{ Panier.adresse.ville }},{{ Panier.adresse.codepostal }}
+                                <br>{{ Panier.adresse.region }}
+                                <br>{{ Panier.adresse.pays }}
+                                <br>{{ Panier.adresse.telephone }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /#content -->
+
+
+{% endblock %}

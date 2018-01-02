@@ -79,7 +79,7 @@ class Commandes
      *
      * @param \DateTime $dateHoraire
      *
-     * @return Ventes
+     * @return Commande
      */
     public function setDateHoraireValide($dateHoraireValide)
     {
