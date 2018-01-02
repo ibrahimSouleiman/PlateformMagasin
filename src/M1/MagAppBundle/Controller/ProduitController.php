@@ -29,6 +29,116 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProduitController extends Controller
 {
+
+
+    private function search(Request $request,$formsearch)
+    {
+        $repositorycategory = $this->getDoctrine()->getRepository('M1MagAppBundle:Categories');
+
+        $categories=$repositorycategory->findAll();
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($formsearch->isSubmitted()) {
+
+
+            $choix=$_POST['categorie'];
+            $data = $formsearch->getData();
+
+            $name=$data->getNom();
+
+            if($choix=="Tous")
+            {
+                if($name!="")
+                {
+                    $categorie=$repositorycategory->findOneById($choix);
+
+                    $query = $em->createQuery(
+                        'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.nom LIKE :nom 
+                 and p.quantite > :quantite'
+                    )->setParameter('quantite', 0)
+                        ->setParameter('nom', $name.'%');
+
+                    $produit = $query->getResult();
+                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                        'Produit' => $produit,
+                        'Categories'=>$categories,
+                        'formsearch' => $formsearch->createView(),
+                    ));
+                }else{
+
+                    $categorie=$repositorycategory->findOneById($choix);
+
+                    $query = $em->createQuery(
+                        'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.quantite > :quantite'
+                    )->setParameter('quantite', 0);
+
+                    $produit = $query->getResult();
+                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                        'Produit' => $produit,
+                        'Categories'=>$categories,
+                        'formsearch' => $formsearch->createView(),
+                    ));
+
+                }
+
+            }
+
+            if($name != "")
+            {
+
+                $categorie=$repositorycategory->findOneById($choix);
+
+                $query = $em->createQuery(
+                    'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.categorie = :categorie
+                 and p.nom LIKE :nom
+                 and p.quantite > :quantite'
+                )->setParameter('categorie', $categorie)
+                    ->setParameter('nom', $name.'%')
+                    ->setParameter('quantite', 0);
+                $produit = $query->getResult();
+                return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                    'Produit' => $produit,
+                    'Categories'=>$categories,
+                    'formsearch' => $formsearch->createView(),
+                ));
+            }else{
+
+                $categorie=$repositorycategory->findOneById($choix);
+
+                $query = $em->createQuery(
+                    'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.categorie = :categorie
+                 and p.quantite > :quantite'
+                )->setParameter('categorie', $categorie)
+                    ->setParameter('quantite', 0);
+                $produit = $query->getResult();
+                return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                    'Produit' => $produit,
+                    'Categories'=>$categories,
+                    'formsearch' => $formsearch->createView(),
+                ));
+            }
+
+
+        }
+
+
+
+
+    }
+
+
+
+
     public function indexAction(Request $request)
 {
 /***************************/
@@ -42,8 +152,8 @@ class ProduitController extends Controller
     $categories=$repositorycategory->findAll();
 
     $produit=new Produit();
-    $form  = $this->get('form.factory')->create(ProduitRechercheType::class, $produit);
-    $form->handleRequest($request);
+    $formsearch  = $this->get('form.factory')->create(ProduitRechercheType::class, $produit);
+    $formsearch->handleRequest($request);
 
 
     // On récupère l'entité correspondante à l'id $id
@@ -61,11 +171,12 @@ class ProduitController extends Controller
     if (null === $produit) {
         throw new NotFoundHttpException("Produit Vide");
     }
-    if ($form->isSubmitted()) {
+
+    if ($formsearch->isSubmitted()) {
 
 
         $choix=$_POST['categorie'];
-        $data = $form->getData();
+        $data = $formsearch->getData();
 
         $name=$data->getNom();
 
@@ -87,7 +198,7 @@ class ProduitController extends Controller
                 return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
                     'Produit' => $produit,
                     'Categories'=>$categories,
-                    'form' => $form->createView(),
+                    'formsearch' => $formsearch->createView(),
                 ));
             }else{
 
@@ -103,7 +214,7 @@ class ProduitController extends Controller
                 return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
                     'Produit' => $produit,
                     'Categories'=>$categories,
-                    'form' => $form->createView(),
+                    'formsearch' => $formsearch->createView(),
                 ));
 
             }
@@ -128,7 +239,7 @@ class ProduitController extends Controller
             return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
                 'Produit' => $produit,
                 'Categories'=>$categories,
-                'form' => $form->createView(),
+                'formsearch' => $formsearch->createView(),
             ));
         }else{
 
@@ -145,17 +256,16 @@ class ProduitController extends Controller
             return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
                 'Produit' => $produit,
                 'Categories'=>$categories,
-                'form' => $form->createView(),
+                'formsearch' => $formsearch->createView(),
             ));
         }
 
 
     }
-
     return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
         'Produit' => $produit,
         'Categories'=>$categories,
-        'form' => $form->createView(),
+        'formsearch' => $formsearch->createView(),
     ));
 
 }
@@ -166,12 +276,16 @@ class ProduitController extends Controller
     public function detailAction(Request $request,$ref)
     {
         $repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Produit');
-        $repositoryUser = $this->getDoctrine()->getRepository('M1MagAppBundle:Utilisateurs');
         $repositoryPanier = $this->getDoctrine()->getRepository('M1MagAppBundle:Paniers');
-        $repositoryAdresse = $this->getDoctrine()->getRepository('M1MagAppBundle:Adresses');
+        $repositorycategory = $this->getDoctrine()->getRepository('M1MagAppBundle:Categories');
 
+        $categories=$repositorycategory->findAll();
         //recuperation de l'id de l'utisateur
         $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $produit=new Produit();
+        $formsearch  = $this->get('form.factory')->create(ProduitRechercheType::class, $produit);
+        $formsearch->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
         // On récupère l'entité correspondante à l'id $id
@@ -195,7 +309,7 @@ class ProduitController extends Controller
 //                ->setAction($this->generateUrl('setStock/'.$id))
             ->add('quantite',ChoiceType::class, array(
                    'choices' => array(array_combine(range(1,$produit->getQuantite()),range(1,$produit->getQuantite())))))
-            ->add('save', SubmitType::class,array('label'=> 'Ajouter '))
+            ->add('save', SubmitType::class,array('label'=> 'Ajouter au Panier'))
             ->getForm();
         $form->handleRequest($request);
 
@@ -203,6 +317,98 @@ class ProduitController extends Controller
         // ou null si l'id $id  n'existe pas, d'où ce if :
         if (null === $produit) {
             throw new NotFoundHttpException("Produit Vide");
+        }
+
+
+        if ($formsearch->isSubmitted()) {
+
+
+            $choix=$_POST['categorie'];
+            $data = $formsearch->getData();
+
+            $name=$data->getNom();
+
+            if($choix=="Tous")
+            {
+                if($name!="")
+                {
+                    $categorie=$repositorycategory->findOneById($choix);
+
+                    $query = $em->createQuery(
+                        'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.nom LIKE :nom 
+                 and p.quantite > :quantite'
+                    )->setParameter('quantite', 0)
+                        ->setParameter('nom', $name.'%');
+
+                    $produit = $query->getResult();
+                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                        'Produit' => $produit,
+                        'Categories'=>$categories,
+                        'formsearch' => $formsearch->createView(),
+                    ));
+                }else{
+
+                    $categorie=$repositorycategory->findOneById($choix);
+
+                    $query = $em->createQuery(
+                        'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.quantite > :quantite'
+                    )->setParameter('quantite', 0);
+
+                    $produit = $query->getResult();
+                    return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                        'Produit' => $produit,
+                        'Categories'=>$categories,
+                        'formsearch' => $formsearch->createView(),
+                    ));
+
+                }
+
+            }
+
+            if($name != "")
+            {
+
+                $categorie=$repositorycategory->findOneById($choix);
+
+                $query = $em->createQuery(
+                    'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.categorie = :categorie
+                 and p.nom LIKE :nom
+                 and p.quantite > :quantite'
+                )->setParameter('categorie', $categorie)
+                    ->setParameter('nom', $name.'%')
+                    ->setParameter('quantite', 0);
+                $produit = $query->getResult();
+                return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                    'Produit' => $produit,
+                    'Categories'=>$categories,
+                    'formsearch' => $formsearch->createView(),
+                ));
+            }else{
+
+                $categorie=$repositorycategory->findOneById($choix);
+
+                $query = $em->createQuery(
+                    'SELECT p
+                 FROM M1MagAppBundle:Produit p
+                 WHERE p.categorie = :categorie
+                 and p.quantite > :quantite'
+                )->setParameter('categorie', $categorie)
+                    ->setParameter('quantite', 0);
+                $produit = $query->getResult();
+                return $this->render('M1MagAppBundle:Produit:index.html.twig', array(
+                    'Produit' => $produit,
+                    'Categories'=>$categories,
+                    'formsearch' => $formsearch->createView(),
+                ));
+            }
+
+
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -231,7 +437,9 @@ class ProduitController extends Controller
                     )->setParameter('quantite', 0);
                     $produit = $query->getResult();
                     return $this->redirectToRoute('m1_mag_app_homepage', array(
-                        'Produit' => $produit
+                        'Produit' => $produit,
+                        'formsearch' =>$formsearch->createView(),
+                        'Categories'=>$categories,
                     ));
                 }else{
                     return $this->redirectToRoute('login');
@@ -239,7 +447,10 @@ class ProduitController extends Controller
 
         }
            return $this->render('M1MagAppBundle:Produit:detail.html.twig', array(
-            'Produit' => $produit, 'form'=> $form->createView()
+            'Produit' => $produit,
+               'form'=> $form->createView(),
+               'formsearch' =>$formsearch->createView(),
+               'Categories'=>$categories,
         ));
 
     }

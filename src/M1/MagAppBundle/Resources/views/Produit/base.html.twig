@@ -51,8 +51,12 @@ _________________________________________________________ -->
             <ul class="menu">
                 {% if is_granted ('IS_AUTHENTICATED_FULLY') %}
 
-                <li><a href="#" data-toggle="modal" data-target="#login-modal">Déconnexion</a>
+                <li><a href="{{ path('logout') }}" data-toggle="modal" data-target="#login-modal">Déconnexion</a>
                 </li>
+
+                {% else  %}
+                        <li><a href="{{ path('login') }}" data-toggle="modal" data-target="#login-modal">Connexion</a>
+                        </li>
                 {% endif %}
                 <li><a href="register.html">S'inscrire</a>
                 </li>
@@ -211,8 +215,8 @@ _________________________________________________________ -->
             <!--/.nav-collapse -->
 
             <div class="navbar-collapse collapse right" id="search-not-mobile">
-                    {{ form_start(form, {'attr': {'class': 'navbar-form'}})}}
-                    {{ form_errors(form) }}
+                    {{ form_start(formsearch, {'attr': {'class': 'navbar-form'}})}}
+                    {{ form_errors(formsearch) }}
                     <select name="categorie" class="form-control" data-style="btn-success">
                         <option value="Tous">Tous nos catégorie </option>
 
@@ -222,13 +226,13 @@ _________________________________________________________ -->
 
                     </select>
                     <div class="input-group" >
-                        {{ form_widget(form.nom, {'attr': {'class': 'form-control','placeholder':'Search'}}) }}
+                        {{ form_widget(formsearch.nom, {'attr': {'class': 'form-control','placeholder':'Search'}}) }}
                         <span class="input-group-btn">
 
-                            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                            {{ form_widget(formsearch.submit, {'attr': {'class': 'btn btn-primary'}}) }}
 		    </span>
                     </div>
-                {{ form_end(form) }}
+                {{ form_end(formsearch) }}
             </div>
 
         </div>
@@ -246,8 +250,38 @@ _________________________________________________________ -->
 <!-- /#navbar -->
 
 <!-- *** NAVBAR END *** -->
+<div id="all">
 
 {% block body %}{% endblock %}
-{% block jquery %} {% endblock %}
+{% block js %}
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/modernizr.js"></script>
+    <script src="js/bootstrap-hover-dropdown.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/front.js"></script>
+{% endblock %}
+<!-- *** COPYRIGHT ***
+_________________________________________________________ -->
+<div id="copyright">
+    <div class="container">
+        <div class="col-md-6">
+            <p class="pull-left">© 2015 Your name goes here.</p>
+
+        </div>
+        <div class="col-md-6">
+            <p class="pull-right">Template by <a href="https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> & <a href="https://fity.cz">Fity</a>
+                <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
+            </p>
+        </div>
+    </div>
+</div>
+<!-- *** COPYRIGHT END *** -->
+
+</div>
+<!-- /#all -->
+
 </body>
 </html>

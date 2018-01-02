@@ -1,96 +1,143 @@
-{# src/M1/MagAppBundle/Resources/views/Produit/index.html.twig #}
+{# src/M1/MagAppBundle/Resources/views/Produit/monpanier.html.twig #}
+{% extends 'M1MagAppBundle::Produit/base.html.twig' %}
 
-<html><body>
-Liste de Produits
+{% block body %}
 
-{% if is_granted ('IS_AUTHENTICATED_FULLY') %}
-    <a href="/logout">Deconnecter</a>
-
-{% else  %}
-    <a href="/login">Connecter</a>
-
-{% endif %}
-
-<a href="/MonPanier">Voir Mon Panier</a>
-
-<H1>Votre Panier</H1>
-{{ user }}
-{{ dump(commandes) }}
-
-<h3>Liste de Vos Produit</h3>
-<table  cellspacing="50" >
-    <tr>
+    <div id="content">
+        <div class="container">
 
 
 
-        <form method="post">
+            <div class="col-md-9" id="basket">
 
-        <table cellpadding="50">
-            <th>
+                <div class="box">
 
-            </th>
-            <th></th>
-            <th>Prix</th>
-            <th>Quantite</th>
-            {% set nombreProduit=0 %}
-            {% set prixTotal=0 %}
+                    <form method="post" action="checkout1.html">
+                        {% set nombreProduit=0 %}
+                        {% set prixTotal=0 %}
+                        <h1>Votre panier</h1>
+                        <p class="text-muted"></p>
+                        <div class="table-responsive">
+                            {%  if (commandes == []) %}
+                                <p class="text-muted">Vôtre Panier est actuellement vide</p>
 
-            {% for commande in commandes %}
-                {% set nombreProduit=nombreProduit+1 %}
-                {% set prixTotal=prixTotal+(commande.produit.prix) %}
+                            {%  else %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">Product</th>
+                                    <th>Quantity</th>
+                                    <th>Unit price</th>
+                                    <th colspan="2">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                <tr>
-                <td>    <img src="http://i2.cdscdn.com/pdt2/3/7/1/1/700x700/del5397063620371/rw/dell-disque-dur-externe-2to-usb-3-0.jpg" height="100" >
-                </td>
-                <td>
-                    <h3 style="color: #0000F0">{{ commande.produit.nom }}</h3>
-                    <h3>{{ commande.produit.details }}</h3>
-                    <a href="{{ path('m1_mag_app_supprimercommandepage',{'id':commande.id}) }}">Supprimer</a>
-                    <a href="">Modifier</a>
+                                {% for commande in commandes %}
+                                {% set nombreProduit=nombreProduit+1 %}
+                                {% set prixTotal=prixTotal+(commande.produit.prix) %}
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            <img src="{{ asset( commande.produit.image.url ) }}" alt="White Blouse Armani">
+                                        </a>
+                                    </td>
+                                    <td><a href="#">{{ commande.produit.nom }}</a>
+                                    </td>
+                                    <td>
+                                      <!--  <input type="number" value="2" class="form-control"> -->
+                                        <select name="{{ commande.id }}" class="form-control">
+                                            {% set itemselected = 0 %}
+                                            {% for i in 1..commande.produit.quantite %}
+                                                {% if i==commande.quantite %}
+                                                    {% set itemselected = i %}
 
-                    <a href="">Mèttre de Côte</a>
+                                                    <option selected="selected">{{ i }}</option>
+                                                {% else %}
+                                                    <option value="{{ i }}">{{ i }}</option>
 
-                </td>
-                <td>
-
-                 <h3 style="color:red"> EUR {{ commande.produit.prix }}</h3>
-                </td>
-                <td>
-                    <select name="{{ commande.id }}">
-                        {% set itemselected = 0 %}
-                        {% for i in 1..commande.produit.quantite %}
-                            {% if i==commande.quantite %}
-                                {% set itemselected = i %}
-
-                                <option selected="selected">{{ i }}</option>
-                             {% else %}
-                                 <option value="{{ i }}">{{ i }}</option>
-
-                            {% endif %}
-                        {% endfor %}
-
-
-
-                    </select>
-                </td>
-            </tr>
-
-        {% endfor %}
-        </table>
+                                                {% endif %}
+                                            {% endfor %}
 
 
-        {% if (commandes != null) %}
-            <div style="margin-left: 1100;margin-top: -400;height: 130;width: 230;background-color:#868686">
-               <h4> Sous-Total:{{ nombreProduit }}</h4>
-                <h3 style="color:red">EUR {{ prixTotal }}</h3>
-                <a href="{{ path('m1_mag_app_choixadressepage') }}">Lien</a>
-                    <button id="commande" type="submit" >Passez a la Commande</button>
+
+                                        </select>
+                                    </td>
+                                    <td>{{ commande.produit.prix }}</td>
+                                    <td></td>
+                                    <td><a href="{{ path('m1_mag_app_supprimercommandepage',{'id':commande.id}) }}"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th colspan="5">Total</th>
+                                    <th colspan="2">$446.00</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        {% endif %}
+
+                        </div>
+                        <!-- /.table-responsive -->
+
+                        <div class="box-footer">
+                            <div class="pull-left">
+                                <a href="category.html" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continier le shopping</a>
+                            </div>
+                            <div class="pull-right">
+                            <!--    <button class="btn btn-default"><i class="fa fa-refresh"></i> Update basket</button> -->
+                                {%  if (commandes != []) %}
+
+                                <a href="{{ path('m1_mag_app_choixadressepage') }}"  class="btn btn-primary">Passer la Commande <i class="fa fa-chevron-right"></i></a>
+                                {% endif %}
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!-- /.box -->
+
+
+
             </div>
+            <!-- /.col-md-9 -->
 
-        {% endif %}
-        </form>
+            <div class="col-md-3">
+                <div class="box" id="order-summary">
+                    <div class="box-header">
+                        <h3>Order summary</h3>
+                    </div>
+                    <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
 
-    </tr>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>Nombre de Produit</td>
+                                <th>{{ nombreProduit }} </th>
+                            </tr>
 
-</table>
-</body></html>
+                            <tr class="total">
+                                <td>Total</td>
+                                <th>{{ prixTotal }}</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.col-md-3 -->
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /#content -->
+
+{% endblock %}
