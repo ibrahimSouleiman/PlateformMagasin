@@ -112,3 +112,8 @@ liip_imagine:
             quality: 75
             filters:
                 thumbnail: { size: [660, 660], mode: inset }
+        my_crop_filter:
+            filters:
+                crop:
+                    size: [ 300, 600 ]
+                    start: [ 040, 160 ]

@@ -25,6 +25,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 /********************************/
 
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 class ProduitController extends Controller
 {
     public function indexAction(Request $request)
@@ -275,7 +277,7 @@ class ProduitController extends Controller
 
              $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-             return $this->redirectToRoute('saved_categorie', array('id' => $produit->getId()));
+             return $this->redirectToRoute('list_stock', array('id' => $produit->getId()));
     }
 
     return $this->render('M1MagAppBundle:Magasinier:Form_Ajout_Produit.html.twig', array(
@@ -290,8 +292,8 @@ class ProduitController extends Controller
 
     $defaultData = array('message' => 'Type your message here');
     $form = $this->createFormBuilder($defaultData)
-        ->add('name', TextType::class, array('required'=>false))
-        ->add('ref', TextType::class, array('required'=>false))
+        ->add('name', TextType::class, array('required'=>false, 'label'=>'Nom'))
+        ->add('ref', TextType::class, array('required'=>false, 'label'=>'Reference'))
         ->add('save', SubmitType::class,array('label'=> 'Recherche'))
         ->getForm();
 
@@ -314,6 +316,41 @@ class ProduitController extends Controller
    
     }
 
+     public function exportCSVAction()
+    {
+        
+       /* $em = $this->getDoctrine()->getManager();
+        $produits = $em->getRepository(Produit::class)->findAll();
+*/
+    $results = $this->getDoctrine()->getManager()->getRepository(Produit::class)->findAll(); 
+
+        $response = new StreamedResponse();
+        $response->setCallback(
+            function () use ($results) {
+                $handle = fopen('php://output', 'r+');
+                foreach ($results as $row) {
+                    //array list fields you need to export
+                    $data = array(
+                        $row->getNom(),
+                        $row->getReference(),
+                        $row->getCategorie()->getLibelleCategorie(),
+                        $row->getPrix(),
+                        $row->getQuantite(),
+                    );
+                    fputcsv($handle, $data);
+                }
+                fclose($handle);
+            }
+        );
+        $response->headers->set('Content-Type', 'application/force-download');
+        $response->headers->set('Content-Disposition', 'attachment; filename="stock.csv"');
+
+        return $response;
+   /* return $this->render("M1MagAppBundle:Magasinier:List_Stock.html.twig", array('form' => $form->createView(),'produits'=> $products)); */
+
+   // return $this->redirectToRoute('list_stock');
+    }
+
 
        public function updateStockAction($id, Request $request)
     {
@@ -322,22 +359,15 @@ class ProduitController extends Controller
            $em = $this->getDoctrine()->getManager();
 		   $produit = $em->getRepository(Produit::class)->find($id);
 		   $AncienneQuantite = $produit->getQuantite();
-
-            //$form = $this->createForm(ProduitType::class, $Prod);
-  
-            //$form = $this->get('form.factory')->createNamedBuilder('form', 'form')
 		    $form = $this->createFormBuilder($Prod)
                 ->setMethod('POST')
-//                ->setAction($this->generateUrl('setStock/'.$id))
                 ->add('quantite', TextType::class,  ['label' => 'Quantité à ajouter '])
-                //->add('save', 'submit', ['label' => 'Quantité à ajouter'])
-                ->add('save', SubmitType::class)
+                ->add('save', SubmitType::class, ['label' => 'Enregistré'])
                 ->getForm();
 
             $form->handleRequest($request);    
 
             if ($request->isMethod('POST') && $form->isValid()) {
-            //$em->persist($produit);
               $quantite = $form->get('quantite')->getData();
               $somme = $AncienneQuantite + $quantite;
               $produit->setQuantite($somme);

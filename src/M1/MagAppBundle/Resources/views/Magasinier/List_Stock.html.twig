@@ -17,27 +17,34 @@
 {{ form_end(form) }}
 	<hr/>
 
- <div ng-app = "mainApp" ng-controller = "produitController">
 	<h3> Produit du stock </h3>
 
 {% if produits is not empty %}
-	<table>
-
-
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+<thead>
+    <th>Nom</th>
+  <th>Référence</th>
+  <th>Quantité </th>
+  <th>Action</th>
+</thead>
 	{% for produit in produits %}
-       <tr>
-
-       <td> <!--img src="{{ asset('uploads/img/ae.jpg') }}" alt="{{produit.image.alt }}" /-->
-         <img src="{{ asset(produit.image.url) | imagine_filter('xs_thumb') }}" alt="{{ produit.image.alt }}" />
-          {{ produit.nom }}
-         {{ produit.prix }}
-         {{ produit.quantite }}
-         {{ produit.categorie.libelleCategorie }}
+<tr>
+       <!--img src="{{ asset('uploads/img/ae.jpg') }}" alt="{{produit.image.alt }}" /-->
+         <!--img src="{{ asset(produit.image.url) | imagine_filter('xs_thumb') }}" alt="{{ produit.image.alt }}" /-->
+         <td>  {{ produit.nom }} </td>
+         <td> {{ produit.reference }} </td>
+         <td> {{ produit.quantite }} </td>
+         <td><a href="{{ path('update_stock', {'id': produit.id}) }}"> Alimenter le stock </a> </td>
        </td>
-       </tr>
+ </tr>      
     {% endfor %}
 
     </table>
+
+<br>
+    <a href="{{ path('download') }}" class="btn btn-info" role="button"> Télécharger </a> 
+
+    <br> <br> 
 
 {% else %}
    

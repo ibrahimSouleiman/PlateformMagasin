@@ -6,6 +6,7 @@ namespace M1\MagAppBundle\Controller;
 use M1\MagAppBundle\Entity\Commandes;
 use M1\MagAppBundle\Entity\Produit;
 use M1\MagAppBundle\Entity\Paniers;
+use M1\MagAppBundle\Entity\Utilisateurs;
 
 /**************forms******************/
 //use M1\MagAppBundle\Form\PaniersType;
@@ -105,15 +106,15 @@ class CommandeController extends Controller
 
 public function listCommandeAction($id)
     {
-		//$Commandes = new Commandes();
-
 		$repository = $this->getDoctrine()->getRepository('M1MagAppBundle:Commandes');
 		$cmd = $repository->findCommandes($id);
-
-		return $this->render("M1MagAppBundle:Magasinier:Cmd_Panier.html.twig",['Commandes'=> $cmd]);
-
+        $user = new Utilisateurs();
+       // $user->setNom()->$cmd->getPanier()->getUtilisateur();
+       // $client = $cmd->getPanier()->getUtilisateur();
+		//return $this->render("M1MagAppBundle:Magasinier:Cmd_Panier.html.twig",['Commandes'=> $cmd, 'client' => $client]);
+    
+     return $this->render('M1MagAppBundle:Magasinier:Cmd_Panier.html.twig',array('Commandes'=>$cmd/*,'client'=>$user*/));
     }
-
 
 
 }
