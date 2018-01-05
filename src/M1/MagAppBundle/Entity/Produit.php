@@ -24,9 +24,9 @@ class Produit
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Nom du Produit ne doit pas être vide")
+     *
      * @Assert\Regex(
-     *     pattern="/^[a-zA-Z0-9]*$/",
+     *     pattern="/^[a-zA-Z0-9 ]*$/",
      *     message="Nom Produit doit contenir que des caracteres et des chiffres")
      *
      * @Assert\Length(
@@ -42,7 +42,7 @@ class Produit
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Reference du Produit ne doit pas être vide")
+     *
      * @Assert\Regex(
      *     pattern="/^[a-zA-Z0-9]*$/",
      *     message="Nom Produit doit contenir que des caracteres et des chiffres")

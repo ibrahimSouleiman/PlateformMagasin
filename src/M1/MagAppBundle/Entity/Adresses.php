@@ -26,7 +26,7 @@ class Adresses
      * @var string
      * @Assert\NotBlank(message="Nom contenu dans adresse ne doit pas être vide")
      * @Assert\Regex(
-     *     pattern="/^[a-zA-Z]*$/",
+     *     pattern="/^[a-zA-Z ]*$/",
      *     message="Nom contenu dans adresse doit contenir que des caracteres")
      *
      * @Assert\Length(
@@ -43,7 +43,7 @@ class Adresses
      * @var string
      * @Assert\NotBlank(message="Adresse ne doit pas être vide")
      * @Assert\Regex(
-     *     pattern="/^[a-zA-Z0-9]*$/",
+     *     pattern="/^[a-zA-Z0-9 ]*$/",
      *     message="Adresse doit contenir que des caracteres ou des chiffres")
      *
      * @Assert\Length(
@@ -132,7 +132,7 @@ class Adresses
      *
      * @Assert\Length(
      *     min=3,
-     *     max=10,
+     *     max=15,
      *     minMessage = "le Champ Telephone contenu  dans adresse doit contenir au moins {{ limit }} charactère ",
      *     maxMessage = "le Champ Telephone contenu  ne doit pas depasse {{ limit }} charactère"
      * )

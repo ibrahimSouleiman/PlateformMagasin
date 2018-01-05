@@ -499,7 +499,7 @@ class ProduitController extends Controller
 
 
 
-   
+
      public function listStockAction(Request $request)
     {
            $em = $this->getDoctrine()->getManager();
